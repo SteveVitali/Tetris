@@ -36,10 +36,10 @@ public class TetrisController {
         while ((action = model.popAction()) != null) {
             switch (action) {
             case MOVE_LEFT:
-                model.tryMove(-1,0);
+                model.tryMoveX(-1);
                 break;
             case MOVE_RIGHT:
-                model.tryMove(1,0);
+                model.tryMoveX(1);
                 break;
             case HOLD:
                 model.hold();
@@ -48,7 +48,7 @@ public class TetrisController {
                 model.hardDrop();
                 break;
             case SOFT_DROP:
-                model.tryMove(0,-1);
+                model.tryMoveY(1);
                 break;
             case ROTATE_CLOCKWISE:
                 model.rotateClockwise();

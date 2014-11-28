@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class TetrisView extends JPanel {
 
-    private int WIDTH = 512;
-    private int HEIGHT= 412;
+    private int WIDTH = 800;
+    private int HEIGHT= 512;
 
     private TetrisModel model;
     private TetrisController controller;

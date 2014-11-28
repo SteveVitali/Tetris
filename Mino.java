@@ -22,6 +22,23 @@ public class Mino {
         }
     }
 
+    public int[][] getCoors() {
+        int[][] copyCoors = new int[4][2];
+        for (int i=0; i<4; i++) {
+            copyCoors[i][0] = coors[i][0];
+            copyCoors[i][1] = coors[i][1];
+        }
+        return copyCoors;
+    }
+
+    public void rotateClockwise() {
+        System.out.println("Rotate clockwise");
+    }
+
+    public void rotateCounterClockwise() {
+        System.out.println("Rotate counter clockwise");
+    }
+
     public void draw(Graphics g, int width) {
         for (int[] coor : coors) {
             g.setColor(color);

@@ -10,6 +10,7 @@ public class TetrisModel {
     private LinkedList<Mino> nextQueue;
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
+    private boolean hitBottom;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -17,6 +18,7 @@ public class TetrisModel {
         matrix.setCurrentMino(new Mino());
         nextQueue = new LinkedList<Mino>();
         pendingActions = new LinkedList<Action>();
+        hitBottom = false;
         populateNextQueue();
     }
 
@@ -52,8 +54,37 @@ public class TetrisModel {
         return matrix.getCurrentMino();
     }
 
-    public void tryMove(int x, int y) {
+    // tryMoveX and tryMoveY are broken up into separate methods
+    // to enforce the invariant that in a given move, you can't
+    // move in both the X and Y directions, and because we want (slightly)
+    // different behavior when a Y move is not allowed versus when
+    // an X move isn't
+    public void tryMoveX(int dx) {
+        if (canMove(dx, 0)) {
+            matrix.getCurrentMino().move(dx, 0);
+        }
+    }
 
+    public void tryMoveY(int dy) {
+        if (canMove(0, dy)) {
+            matrix.getCurrentMino().move(0, dy);
+        } else {
+            hitBottom = true;
+            System.out.println("HIT BOTTOM");
+        }
+    }
+
+    private boolean canMove(int dx, int dy) {
+        Mino currentMino = getCurrentMino();
+        int[][] oldCoors = currentMino.getCoors();
+        boolean canMove = true;
+        for (int[] coor : oldCoors) {
+            if (!matrix.coorEmpty(coor[0]+dx, coor[1]+dy)) {
+                canMove = false;
+                break;
+            }
+        }
+        return canMove;
     }
 
     public void hardDrop() {
@@ -65,10 +96,10 @@ public class TetrisModel {
     }
 
     public void rotateClockwise() {
-        System.out.println("Rotate clockwise");
+        matrix.getCurrentMino().rotateClockwise();
     }
 
     public void rotateCounterClockwise() {
-        System.out.println("Rotate counter clockwise");
+        matrix.getCurrentMino().rotateCounterClockwise();
     }
 }

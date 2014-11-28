@@ -23,11 +23,20 @@ public class MatrixModel {
     }
 
     public Color colorAtCoor(int x, int y) {
-        if (x < width && y < height) {
+        if (inBounds(x, y)) {
             return colors[x][y];
         } else {
             return null;
         }
+    }
+
+    public boolean coorEmpty(int x, int y) {
+        if (inBounds(x, y)) {
+            return colors[x][y] == null ? true : false;
+        } else if (inXBounds(x) && y < 20) {
+            return true;
+        }
+        return false;
     }
 
     public int getWidth() {
@@ -44,5 +53,14 @@ public class MatrixModel {
 
     public Mino getCurrentMino() {
         return currentMino;
+    }
+
+    private boolean inBounds(int x, int y) {
+        return (x > -1  && x < width &&
+                y > -1 && y < height );
+    }
+
+    private boolean inXBounds(int x) {
+        return (x > -1 && x < width);
     }
 }
