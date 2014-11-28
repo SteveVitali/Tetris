@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class MatrixModel {
 
@@ -71,16 +72,57 @@ public class MatrixModel {
         while (canMove(currentMino, 0, 1)) {
             currentMino.move(0, 1);
         }
-        lockMinoIntoMatrix(currentMino);
     }
 
-    public void lockMinoIntoMatrix(Mino mino) {
-        Color color = mino.getColor();
-        for (int[] coor : mino.getCoors()) {
+    public void lockMinoIntoMatrix() {
+        Color color = currentMino.getColor();
+        for (int[] coor : currentMino.getCoors()) {
             int x = coor[0];
             int y = coor[1];
             this.colors[x][y] = color;
         }
+    }
+
+    // Clear lines and return number cleared
+    public int clearLines() {
+        ArrayList<Integer> rowsToRemove = new ArrayList<Integer>();
+        for (int y = 0; y < height; y++) {
+            boolean isFull = true;
+            for (int x = 0; x < width; x++) {
+                if (colors[x][y] == null) {
+                    isFull = false;
+                    break;
+                }
+            }
+            if (isFull) {
+                rowsToRemove.add(y);
+            }
+        }
+        removeRows(rowsToRemove);
+        return rowsToRemove.size();
+    }
+
+    public void removeRows(ArrayList<Integer> rowsToRemove) {
+        Color[][] newColors = new Color[10][20];
+        for (int y = 0; y < height; y++) {
+            if (!rowsToRemove.contains(y)) {
+                int shiftDown = numValuesGreaterThan(rowsToRemove, y);
+                for (int x = 0; x < width; x++) {
+                    newColors[x][y+shiftDown] = colors[x][y];
+                }
+            }
+        }
+        this.colors = newColors;
+    }
+
+    private int numValuesGreaterThan(ArrayList<Integer> values, int compare) {
+        int numValuesGreaterThan = 0;
+        for (int value : values) {
+            if (value > compare) {
+                numValuesGreaterThan++;
+            }
+        }
+        return numValuesGreaterThan;
     }
 
     public Mino getCurrentMino() {

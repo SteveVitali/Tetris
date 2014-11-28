@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 public class TetrisModel {
 
-    private Mino currentMino;
     private Mino holdMino;
     private MatrixModel matrix;
     private LinkedList<Mino> nextQueue;
@@ -89,8 +88,14 @@ public class TetrisModel {
 
     public void hardDrop() {
         matrix.hardDropCurrentMino();
+        lockMinoIntoMatrix();
+    }
+
+    public void lockMinoIntoMatrix() {
+        matrix.lockMinoIntoMatrix();
         matrix.setCurrentMino(nextQueue.pop());
         nextQueue.push(new Mino());
+        int linesClared = matrix.clearLines();
     }
 
     public void hold() {
