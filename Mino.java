@@ -3,16 +3,14 @@ import java.awt.Graphics;
 
 public class Mino {
     private MinoType type;
-    private Color color;
+    protected Color color;
     private int[][] coors;
-    private boolean active;
 
     // Default constructor instantiates random mino type
     public Mino() {
         this.type  = MinoType.getRandomMinoType();
         this.color = type.getColor();
         this.coors = type.getDefaultCoors();
-        this.active = false;
     }
 
     public void move(int x, int y) {
@@ -23,12 +21,24 @@ public class Mino {
     }
 
     public int[][] getCoors() {
+        return getCoorCopy(coors);
+    }
+
+    public void setCoors(int[][] newCoors) {
+        this.coors = getCoorCopy(newCoors);
+    }
+
+    private int[][] getCoorCopy(int[][] someCoors) {
         int[][] copyCoors = new int[4][2];
         for (int i=0; i<4; i++) {
-            copyCoors[i][0] = coors[i][0];
-            copyCoors[i][1] = coors[i][1];
+            copyCoors[i][0] = someCoors[i][0];
+            copyCoors[i][1] = someCoors[i][1];
         }
         return copyCoors;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public void rotateClockwise() {
@@ -39,6 +49,7 @@ public class Mino {
         rotate(false);
     }
 
+    // TODO: Get I-tetromino rotations working properly
     public void rotate(boolean clockwise) {
         switch (type) {
         case O:
@@ -60,15 +71,6 @@ public class Mino {
                 rotated[i][1] += origin[1];
             }
             coors = rotated;
-        }
-    }
-
-    public int[] getOrigin() {
-        switch (type) {
-        case I:
-            return new int[]{coors[2][0], coors[2][1]+1};
-        default:
-            return coors[1];
         }
     }
 

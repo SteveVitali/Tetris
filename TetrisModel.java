@@ -60,31 +60,22 @@ public class TetrisModel {
     // different behavior when a Y move is not allowed versus when
     // an X move isn't
     public void tryMoveX(int dx) {
-        if (canMove(dx, 0)) {
-            matrix.getCurrentMino().move(dx, 0);
+        Mino currentMino = matrix.getCurrentMino();
+        if (matrix.canMove(currentMino, dx, 0)) {
+            currentMino.move(dx, 0);
+            matrix.updateGhostCoors();
         }
     }
 
     public void tryMoveY(int dy) {
-        if (canMove(0, dy)) {
-            matrix.getCurrentMino().move(0, dy);
+        Mino currentMino = matrix.getCurrentMino();
+        if (matrix.canMove(currentMino, 0, dy)) {
+            currentMino.move(0, dy);
+            matrix.updateGhostCoors();
         } else {
             hitBottom = true;
             System.out.println("HIT BOTTOM");
         }
-    }
-
-    private boolean canMove(int dx, int dy) {
-        Mino currentMino = getCurrentMino();
-        int[][] oldCoors = currentMino.getCoors();
-        boolean canMove = true;
-        for (int[] coor : oldCoors) {
-            if (!matrix.coorEmpty(coor[0]+dx, coor[1]+dy)) {
-                canMove = false;
-                break;
-            }
-        }
-        return canMove;
     }
 
     public void hardDrop() {
@@ -97,9 +88,11 @@ public class TetrisModel {
 
     public void rotateClockwise() {
         matrix.getCurrentMino().rotateClockwise();
+        matrix.updateGhostCoors();
     }
 
     public void rotateCounterClockwise() {
         matrix.getCurrentMino().rotateCounterClockwise();
+        matrix.updateGhostCoors();
     }
 }

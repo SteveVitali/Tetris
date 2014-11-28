@@ -7,6 +7,7 @@ public class MatrixModel {
 
     private Color[][] colors;
     private Mino currentMino;
+    private Ghost ghost;
 
     public MatrixModel() {
         initialize();
@@ -39,6 +40,19 @@ public class MatrixModel {
         return false;
     }
 
+    public boolean canMove(Mino mino, int dx, int dy) {
+        int[][] oldCoors = mino.getCoors();
+        boolean canMove = true;
+        for (int[] coor : oldCoors) {
+            if (!coorEmpty(coor[0]+dx, coor[1]+dy)) {
+                canMove = false;
+                break;
+            }
+        }
+        return canMove;
+    }
+
+
     public int getWidth() {
         return width;
     }
@@ -49,10 +63,23 @@ public class MatrixModel {
 
     public void setCurrentMino(Mino mino) {
         currentMino = mino;
+        ghost = new Ghost(mino);
+        updateGhostCoors();
     }
 
     public Mino getCurrentMino() {
         return currentMino;
+    }
+
+    public Ghost getGhost() {
+        return ghost;
+    }
+
+    public void updateGhostCoors() {
+        ghost.setCoors(currentMino.getCoors());
+        while (canMove(ghost, 0,1)) {
+            ghost.move(0, 1);
+        }
     }
 
     private boolean inBounds(int x, int y) {
