@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -26,6 +27,14 @@ public class TetrisModel {
         for (int i=0; i<5; i++) {
             nextQueue.push(new Mino());
         }
+    }
+
+    public ArrayList<Mino> getNextMinos() {
+        ArrayList<Mino> minos = new ArrayList<Mino>();
+        for (Mino mino : nextQueue) {
+            minos.add(mino);
+        }
+        return minos;
     }
 
     public MatrixModel getMatrix() {
@@ -79,7 +88,9 @@ public class TetrisModel {
     }
 
     public void hardDrop() {
-        System.out.println("Hard drop");
+        matrix.hardDropCurrentMino();
+        matrix.setCurrentMino(nextQueue.pop());
+        nextQueue.push(new Mino());
     }
 
     public void hold() {

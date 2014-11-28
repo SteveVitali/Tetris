@@ -67,6 +67,22 @@ public class MatrixModel {
         updateGhostCoors();
     }
 
+    public void hardDropCurrentMino() {
+        while (canMove(currentMino, 0, 1)) {
+            currentMino.move(0, 1);
+        }
+        lockMinoIntoMatrix(currentMino);
+    }
+
+    public void lockMinoIntoMatrix(Mino mino) {
+        Color color = mino.getColor();
+        for (int[] coor : mino.getCoors()) {
+            int x = coor[0];
+            int y = coor[1];
+            this.colors[x][y] = color;
+        }
+    }
+
     public Mino getCurrentMino() {
         return currentMino;
     }

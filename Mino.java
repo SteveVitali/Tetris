@@ -10,7 +10,7 @@ public class Mino {
     public Mino() {
         this.type  = MinoType.getRandomMinoType();
         this.color = type.getColor();
-        this.coors = type.getDefaultCoors();
+        this.coors = getCoorCopy(type.getDefaultCoors());
     }
 
     public void move(int x, int y) {
@@ -20,21 +20,22 @@ public class Mino {
         }
     }
 
+    private int[][] getCoorCopy(int[][] someCoors) {
+        int[][] copyCoors = new int[4][2];
+        for (int i=0; i<someCoors.length; i++) {
+            for (int j=0; j<someCoors[i].length; j++) {
+                copyCoors[i][j] = someCoors[i][j];
+            }
+        }
+        return copyCoors;
+    }
+
     public int[][] getCoors() {
         return getCoorCopy(coors);
     }
 
     public void setCoors(int[][] newCoors) {
         this.coors = getCoorCopy(newCoors);
-    }
-
-    private int[][] getCoorCopy(int[][] someCoors) {
-        int[][] copyCoors = new int[4][2];
-        for (int i=0; i<4; i++) {
-            copyCoors[i][0] = someCoors[i][0];
-            copyCoors[i][1] = someCoors[i][1];
-        }
-        return copyCoors;
     }
 
     public Color getColor() {

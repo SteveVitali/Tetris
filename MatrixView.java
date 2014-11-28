@@ -34,6 +34,13 @@ public class MatrixView extends JPanel {
                 Color colorAtCoor = model.colorAtCoor(x, y);
                 if (colorAtCoor != null) {
                     g.setColor(colorAtCoor);
+                    g.fillRect(x*UNIT, y*UNIT, UNIT, UNIT);
+
+                    // Add white/black outline for shadow effect
+                    g.setColor(Color.white);
+                    g.drawRect(x*UNIT, y*UNIT, UNIT-1, UNIT-1);
+
+                    g.setColor(Color.black);
                     g.drawRect(x*UNIT, y*UNIT, UNIT, UNIT);
                 }
 
