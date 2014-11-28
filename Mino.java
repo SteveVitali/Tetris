@@ -32,11 +32,44 @@ public class Mino {
     }
 
     public void rotateClockwise() {
-        System.out.println("Rotate clockwise");
+        rotate(true);
     }
 
     public void rotateCounterClockwise() {
-        System.out.println("Rotate counter clockwise");
+        rotate(false);
+    }
+
+    public void rotate(boolean clockwise) {
+        switch (type) {
+        case O:
+            return;
+        default:
+            int[][] rotated = new int[4][2];
+            int[] origin = coors[1];
+            for (int i=0; i<coors.length; i++) {
+                int[] coor = coors[i];
+                int[] translated = new int[]{
+                        coor[0] - origin[0], coor[1] - origin[1]
+                };
+                translated[1] *= clockwise ? 1 : -1;
+                rotated[i] = new int[]{translated[0], translated[1]};
+                rotated[i][0] = (int)Math.round(-1*translated[1]);
+                rotated[i][1] = (int)Math.round(translated[0]);
+                rotated[i][1] *= clockwise ? 1 : -1;
+                rotated[i][0] += origin[0];
+                rotated[i][1] += origin[1];
+            }
+            coors = rotated;
+        }
+    }
+
+    public int[] getOrigin() {
+        switch (type) {
+        case I:
+            return new int[]{coors[2][0], coors[2][1]+1};
+        default:
+            return coors[1];
+        }
     }
 
     public void draw(Graphics g, int width) {
