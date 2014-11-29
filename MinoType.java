@@ -25,7 +25,7 @@ public enum MinoType {
         Z.defaultCoors = new int[][]{{5,0},{4,0},{4,-1},{3,-1}};
         T.defaultCoors = new int[][]{{3,0},{4,0},{4,-1},{5,0}};
         // I gets rotated about {defaultCoors[2][0], defaultCoors[2][1]+1}
-        I.defaultCoors = new int[][]{{3,0},{4,0},{5,0},{6,0}};
+        I.defaultCoors = new int[][]{{6,0},{5,0},{4,0},{3,0}};
         O.defaultCoors = new int[][]{{4,-1},{5,-1},{4,0},{5,0}};
     }
 

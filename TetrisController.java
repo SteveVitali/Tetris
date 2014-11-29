@@ -51,10 +51,10 @@ public class TetrisController {
                 model.tryMoveY(1);
                 break;
             case ROTATE_CLOCKWISE:
-                model.rotateClockwise();
+                model.tryRotateClockwise();
                 break;
             case ROTATE_COUNTER_CLOCKWISE:
-                model.rotateCounterClockwise();
+                model.tryRotateCounterClockwise();
                 break;
             }
         }

@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
@@ -107,14 +108,24 @@ public class TetrisModel {
         }
     }
 
-    public void rotateClockwise() {
-        matrix.getCurrentMino().rotateClockwise();
-        matrix.updateGhostCoors();
+    public void tryRotateClockwise() {
+        Mino current = matrix.getCurrentMino();
+        tryRotate(current.rotateClockwise());
     }
 
-    public void rotateCounterClockwise() {
-        matrix.getCurrentMino().rotateCounterClockwise();
-        matrix.updateGhostCoors();
+    public void tryRotateCounterClockwise() {
+        Mino current = matrix.getCurrentMino();
+        tryRotate(current.rotateCounterClockwise());
+    }
+
+    public void tryRotate(int[][] newCoors) {
+        Mino current = matrix.getCurrentMino();
+        Point shift = matrix.findClosestValidMinoPlacement(newCoors);
+        if (shift != null) {
+            current.setCoors(newCoors);
+            current.move(shift.x, shift.y);
+            matrix.updateGhostCoors();
+        }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

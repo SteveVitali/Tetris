@@ -26,6 +26,10 @@ public class Mino {
         }
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     private int[][] getCoorCopy(int[][] someCoors) {
         int[][] copyCoors = new int[4][2];
         for (int i=0; i<someCoors.length; i++) {
@@ -48,28 +52,23 @@ public class Mino {
         this.coors = getCoorCopy(newCoors);
     }
 
-    public Color getColor() {
-        return color;
+    public int[][] rotateClockwise() {
+        return rotate(getCoorCopy(coors), true);
     }
 
-    public void rotateClockwise() {
-        rotate(true);
+    public int[][] rotateCounterClockwise() {
+        return rotate(getCoorCopy(coors), false);
     }
 
-    public void rotateCounterClockwise() {
-        rotate(false);
-    }
-
-    // TODO: Get I-tetromino rotations working properly
-    public void rotate(boolean clockwise) {
+    public int[][] rotate(int[][] coordinates, boolean clockwise) {
         switch (type) {
         case O:
-            return;
+            return coordinates;
         default:
             int[][] rotated = new int[4][2];
-            int[] origin = coors[1];
-            for (int i=0; i<coors.length; i++) {
-                int[] coor = coors[i];
+            int[] origin = coordinates[1];
+            for (int i=0; i<coordinates.length; i++) {
+                int[] coor = coordinates[i];
                 int[] translated = new int[]{
                         coor[0] - origin[0], coor[1] - origin[1]
                 };
@@ -81,7 +80,7 @@ public class Mino {
                 rotated[i][0] += origin[0];
                 rotated[i][1] += origin[1];
             }
-            coors = rotated;
+            return rotated;
         }
     }
 
