@@ -1,16 +1,19 @@
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
 
 
 public class TetrisModel {
 
-    private Mino holdMino;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    private MinoType holdMino;
     private MatrixModel matrix;
     private QueueModel nextQueue;
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
     private boolean hitBottom;
+    private boolean canHold;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -19,6 +22,7 @@ public class TetrisModel {
         matrix.setCurrentMino(new Mino());
         pendingActions = new LinkedList<Action>();
         hitBottom = false;
+        canHold = true;
     }
 
     public MatrixModel getMatrix() {
@@ -84,10 +88,23 @@ public class TetrisModel {
         matrix.lockMinoIntoMatrix();
         matrix.setCurrentMino(nextQueue.popMino());
         int linesClared = matrix.clearLines();
+        canHold = true;
     }
 
     public void hold() {
-        System.out.println("Hold");
+        if (canHold) {
+            Mino current = matrix.getCurrentMino();
+            if (holdMino == null) {
+                holdMino = current.getType();
+                matrix.setCurrentMino(nextQueue.popMino());
+            } else {
+                MinoType newMinoType = holdMino;
+                holdMino = current.getType();
+                matrix.setCurrentMino(new Mino(newMinoType));
+            }
+            canHold = false;
+            pcs.firePropertyChange("holdMino", null, holdMino);
+        }
     }
 
     public void rotateClockwise() {
@@ -98,5 +115,9 @@ public class TetrisModel {
     public void rotateCounterClockwise() {
         matrix.getCurrentMino().rotateCounterClockwise();
         matrix.updateGhostCoors();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
     }
 }

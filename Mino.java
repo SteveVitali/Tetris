@@ -13,6 +13,12 @@ public class Mino {
         this.coors = getCoorCopy(type.getDefaultCoors());
     }
 
+    public Mino(MinoType type) {
+        this.type  = type;
+        this.color = type.getColor();
+        this.coors = getCoorCopy(type.getDefaultCoors());
+    }
+
     public void move(int x, int y) {
         for (int[] coor : coors) {
             coor[0] += x;
@@ -32,6 +38,10 @@ public class Mino {
 
     public int[][] getCoors() {
         return getCoorCopy(coors);
+    }
+
+    public MinoType getType() {
+        return type;
     }
 
     public void setCoors(int[][] newCoors) {

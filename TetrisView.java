@@ -18,6 +18,7 @@ public class TetrisView extends JPanel {
     private TetrisController controller;
     private MatrixView matrix;
     private QueueView queue;
+    private MinoPanel hold;
 
     public TetrisView(TetrisModel m) {
         this.model = m;
@@ -27,6 +28,7 @@ public class TetrisView extends JPanel {
 
         this.matrix = new MatrixView(matrixModel);
         this.queue  = new QueueView (queueModel);
+        this.hold   = new MinoPanel();
 
         queueModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -37,6 +39,16 @@ public class TetrisView extends JPanel {
             }
         });
 
+        model.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if (e.getPropertyName().equals("holdMino")) {
+                    hold.setMino(new Mino((MinoType)e.getNewValue()));
+                }
+            }
+        });
+
+        add(hold  , BorderLayout.WEST);
         add(matrix, BorderLayout.CENTER);
         add(queue , BorderLayout.EAST);
 
