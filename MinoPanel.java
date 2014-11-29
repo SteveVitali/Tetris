@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
-public class MinoPanel extends JPanel {
+public class MinoPanel extends GameElementPanel {
 
     int WIDTH = 84;
     int UNIT  = 16;
@@ -15,9 +15,6 @@ public class MinoPanel extends JPanel {
     private Mino mino;
 
     public MinoPanel() {
-        setBackground(null);
-        setOpaque(false);
-        setBorder(BorderFactory.createLineBorder(Color.darkGray));
     }
 
     public void setMino(Mino mino) {
@@ -27,8 +24,6 @@ public class MinoPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(100,100,100,128));
-        g.fillRoundRect(0, 0, WIDTH, WIDTH, 10, 10);
         if (mino != null) {
             mino.drawInRect(g, WIDTH, WIDTH);
         }

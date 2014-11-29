@@ -16,9 +16,11 @@ public class TetrisController {
         this.model = m;
         this.view  = v;
 
+        model.startTimer();
         Timer tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tick();
+                model.updateTime(System.currentTimeMillis());
             }
         });
         tickTimer.start();

@@ -12,6 +12,7 @@ public class TetrisModel {
     private MinoType holdMino;
     private MatrixModel matrix;
     private QueueModel nextQueue;
+    private TimerModel timer;
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
     private boolean canHold;
@@ -22,6 +23,7 @@ public class TetrisModel {
         matrix = new MatrixModel();
         nextQueue = new QueueModel(5);
         matrix.setCurrentMino(new Mino());
+        timer = new TimerModel();
         pendingActions = new LinkedList<Action>();
         canHold = true;
     }
@@ -32,6 +34,10 @@ public class TetrisModel {
 
     public QueueModel getQueue() {
         return nextQueue;
+    }
+
+    public TimerModel getTimer() {
+        return timer;
     }
 
     public void setKeyPressed(int keyCode) {
@@ -159,5 +165,13 @@ public class TetrisModel {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
+    }
+
+    public void startTimer() {
+        timer.setStartTime(System.currentTimeMillis());
+    }
+
+    public void updateTime(long time) {
+        timer.updateTime(time);
     }
 }

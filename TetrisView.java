@@ -5,6 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
@@ -13,11 +16,13 @@ public class TetrisView extends JPanel {
 
     private int WIDTH = 800;
     private int HEIGHT= 512;
+    private int TENTH_SEC = 100;
 
     private TetrisModel model;
     private TetrisController controller;
     private MatrixView matrix;
     private QueueView queue;
+    private TimerView timer;
     private MinoPanel hold;
 
     public TetrisView(TetrisModel m) {
@@ -25,9 +30,11 @@ public class TetrisView extends JPanel {
 
         MatrixModel matrixModel = model.getMatrix();
         QueueModel  queueModel  = model.getQueue();
+        TimerModel  timerModel  = model.getTimer();
 
         this.matrix = new MatrixView(matrixModel);
         this.queue  = new QueueView (queueModel);
+        this.timer  = new TimerView (timerModel);
         this.hold   = new MinoPanel();
 
         queueModel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -48,7 +55,13 @@ public class TetrisView extends JPanel {
             }
         });
 
-        add(hold  , BorderLayout.WEST);
+        JPanel west = new JPanel();
+        west.setLayout(new FlowLayout());
+        west.setPreferredSize(new Dimension(100, 512));
+        west.setOpaque(false);
+        west.add(hold);
+        west.add(timer);
+        add(west  , BorderLayout.WEST);
         add(matrix, BorderLayout.CENTER);
         add(queue , BorderLayout.EAST);
 
