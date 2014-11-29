@@ -2,19 +2,20 @@ import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    private final long MINO_LOCK_DELAY = 1000;
     private MinoType holdMino;
     private MatrixModel matrix;
     private QueueModel nextQueue;
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
-    private boolean hitBottom;
     private boolean canHold;
+    private TimerTask minoLockTask;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -22,7 +23,6 @@ public class TetrisModel {
         nextQueue = new QueueModel(5);
         matrix.setCurrentMino(new Mino());
         pendingActions = new LinkedList<Action>();
-        hitBottom = false;
         canHold = true;
     }
 
@@ -66,6 +66,7 @@ public class TetrisModel {
         if (matrix.canMove(currentMino, dx, 0)) {
             currentMino.move(dx, 0);
             matrix.updateGhostCoors();
+            resetMinoLockDelay();
         }
     }
 
@@ -74,9 +75,34 @@ public class TetrisModel {
         if (matrix.canMove(currentMino, 0, dy)) {
             currentMino.move(0, dy);
             matrix.updateGhostCoors();
-        } else {
-            hitBottom = true;
+            resetMinoLockDelay();
+        }
+    }
+
+    public void checkHitBottom() {
+        Mino currentMino = matrix.getCurrentMino();
+        if (!matrix.canMove(currentMino, 0, 1)) {
+            beginMinoLockDelay();
             System.out.println("HIT BOTTOM");
+        }
+    }
+
+    public void beginMinoLockDelay() {
+        if (minoLockTask == null) {
+            minoLockTask = new TimerTask() {
+                @Override
+                public void run() {
+                    pendingActions.push(Action.LOCK_MINO);
+                }
+            };
+            (new Timer()).schedule(minoLockTask, MINO_LOCK_DELAY);
+        }
+    }
+
+    public void resetMinoLockDelay() {
+        if (minoLockTask != null) {
+            minoLockTask.cancel();
+            minoLockTask = null;
         }
     }
 
@@ -88,6 +114,7 @@ public class TetrisModel {
     public void lockMinoIntoMatrix() {
         matrix.lockMinoIntoMatrix();
         matrix.setCurrentMino(nextQueue.popMino());
+        resetMinoLockDelay();
         int linesClared = matrix.clearLines();
         canHold = true;
     }
@@ -105,6 +132,7 @@ public class TetrisModel {
             }
             canHold = false;
             pcs.firePropertyChange("holdMino", null, holdMino);
+            resetMinoLockDelay();
         }
     }
 
@@ -125,6 +153,7 @@ public class TetrisModel {
             current.setCoors(newCoors);
             current.move(shift.x, shift.y);
             matrix.updateGhostCoors();
+            resetMinoLockDelay();
         }
     }
 

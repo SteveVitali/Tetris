@@ -10,7 +10,7 @@ public class TetrisController {
     private TetrisView view;
 
     public static final int TICK_INTERVAL = 30;
-    public static final int DROP_INTERVAL = 1200;
+    public static final int DROP_INTERVAL = 1000;
 
     public TetrisController(TetrisModel m, TetrisView v) {
         this.model = m;
@@ -56,7 +56,11 @@ public class TetrisController {
             case ROTATE_COUNTER_CLOCKWISE:
                 model.tryRotateCounterClockwise();
                 break;
+            case LOCK_MINO:
+                model.lockMinoIntoMatrix();
+                break;
             }
+            model.checkHitBottom();
         }
         view.repaint();
     }
