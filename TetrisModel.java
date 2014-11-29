@@ -7,7 +7,7 @@ public class TetrisModel {
 
     private Mino holdMino;
     private MatrixModel matrix;
-    private LinkedList<Mino> nextQueue;
+    private QueueModel nextQueue;
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
     private boolean hitBottom;
@@ -15,29 +15,18 @@ public class TetrisModel {
     public TetrisModel() {
         keyBindings = new KeyBinder();
         matrix = new MatrixModel();
+        nextQueue = new QueueModel(5);
         matrix.setCurrentMino(new Mino());
-        nextQueue = new LinkedList<Mino>();
         pendingActions = new LinkedList<Action>();
         hitBottom = false;
-        populateNextQueue();
-    }
-
-    private void populateNextQueue() {
-        for (int i=0; i<5; i++) {
-            nextQueue.push(new Mino());
-        }
-    }
-
-    public ArrayList<Mino> getNextMinos() {
-        ArrayList<Mino> minos = new ArrayList<Mino>();
-        for (Mino mino : nextQueue) {
-            minos.add(mino);
-        }
-        return minos;
     }
 
     public MatrixModel getMatrix() {
         return matrix;
+    }
+
+    public QueueModel getQueue() {
+        return nextQueue;
     }
 
     public void setKeyPressed(int keyCode) {
@@ -93,8 +82,7 @@ public class TetrisModel {
 
     public void lockMinoIntoMatrix() {
         matrix.lockMinoIntoMatrix();
-        matrix.setCurrentMino(nextQueue.pop());
-        nextQueue.push(new Mino());
+        matrix.setCurrentMino(nextQueue.popMino());
         int linesClared = matrix.clearLines();
     }
 

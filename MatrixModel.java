@@ -99,6 +99,7 @@ public class MatrixModel {
             }
         }
         removeRows(rowsToRemove);
+        updateGhostCoors();
         return rowsToRemove.size();
     }
 

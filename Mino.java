@@ -88,4 +88,38 @@ public class Mino {
             g.drawRect(coor[0]*width, coor[1]*width, width, width);
         }
     }
+
+    public void drawInRect(Graphics g, int width, int height) {
+        // Lots of math to center the mino in a given rectangle
+        int maxX = 0, minX = Integer.MAX_VALUE;
+        int maxY = 0, minY = Integer.MAX_VALUE;
+        for (int[] coor : coors) {
+            maxX = coor[0] > maxX ? coor[0] : maxX;
+            minX = coor[0] < minX ? coor[0] : minX;
+            maxY = coor[1] > maxY ? coor[1] : maxY;
+            minY = coor[1] < minY ? coor[1] : minY;
+        }
+        int minoWidth  = maxX - minX + 1;
+        int minoHeight = maxY - minY + 1;
+
+        int outerBoxWidth = width < height ? width : height;
+        int padding = 4;
+        int boundingBoxWidth = outerBoxWidth - padding * 2;
+        int minoBlockWidth = boundingBoxWidth / 4;
+
+        int xOffset = (width - minoBlockWidth  * minoWidth ) / 2;
+        int yOffset = (height - minoBlockWidth * minoHeight) / 2;
+
+        for (int[] coor : coors) {
+            int x = (coor[0] - minX) * minoBlockWidth + xOffset;
+            int y = (coor[1] - minY) * minoBlockWidth + yOffset;
+
+            g.setColor(color);
+            g.fillRect(x, y, minoBlockWidth, minoBlockWidth);
+            g.setColor(Color.white);
+            g.drawRect(x, y, minoBlockWidth-1, minoBlockWidth-1);
+            g.setColor(Color.black);
+            g.drawRect(x, y, minoBlockWidth, minoBlockWidth);
+        }
+    }
 }
