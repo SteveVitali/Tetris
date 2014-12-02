@@ -7,7 +7,6 @@ public class QueueView extends JPanel {
 
     private int WIDTH  = 128;
     private int HEIGHT = 512;
-    private int UNIT   = 16;
 
     private QueueModel model;
     private MinoPanel[] minoPanels;

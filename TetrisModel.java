@@ -17,6 +17,7 @@ public class TetrisModel {
     private LinkedList<Action> pendingActions;
     private boolean canHold;
     private TimerTask minoLockTask;
+    private int linesCleared;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -26,6 +27,7 @@ public class TetrisModel {
         timer = new TimerModel();
         pendingActions = new LinkedList<Action>();
         canHold = true;
+        linesCleared = 0;
     }
 
     public MatrixModel getMatrix() {
@@ -121,7 +123,7 @@ public class TetrisModel {
         matrix.lockMinoIntoMatrix();
         matrix.setCurrentMino(nextQueue.popMino());
         resetMinoLockDelay();
-        int linesClared = matrix.clearLines();
+        linesCleared += matrix.clearLines();
         canHold = true;
     }
 
@@ -173,5 +175,13 @@ public class TetrisModel {
 
     public void updateTime(long time) {
         timer.updateTime(time);
+    }
+
+    public int getLinesCleared() {
+        return linesCleared;
+    }
+
+    public void setLinesCleared(int linesCleared) {
+        this.linesCleared = linesCleared;
     }
 }

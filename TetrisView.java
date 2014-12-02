@@ -5,27 +5,23 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class TetrisView extends JPanel {
 
-    private int WIDTH = 800;
-    private int HEIGHT= 512;
-    private int TENTH_SEC = 100;
-
+    private AppController app;
     private TetrisModel model;
+    @SuppressWarnings("unused")
     private TetrisController controller;
     private MatrixView matrix;
     private QueueView queue;
     private TimerView timer;
     private MinoPanel hold;
 
-    public TetrisView(TetrisModel m) {
+    public TetrisView(AppController app, TetrisModel m) {
+        this.app = app;
         this.model = m;
 
         MatrixModel matrixModel = model.getMatrix();
@@ -82,6 +78,6 @@ public class TetrisView extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(WIDTH, HEIGHT);
+        return new Dimension(app.WIDTH, app.HEIGHT);
     }
 }

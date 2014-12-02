@@ -30,7 +30,6 @@ public class MatrixModel {
         constructValidShifts();
     }
 
-    @SuppressWarnings("unchecked")
     public void constructValidShifts() {
         this.validShifts = new ArrayList<Point>();
         for (int i = -2; i <= 2; i++) {
@@ -38,11 +37,9 @@ public class MatrixModel {
                 validShifts.add(new Point(i, j));
             }
         }
-        Collections.sort(validShifts, new Comparator() {
+        Collections.sort(validShifts, new Comparator<Point>() {
             @Override
-            public int compare(Object o1, Object o2) {
-                Point p1 = (Point) o1;
-                Point p2 = (Point) o2;
+            public int compare(Point p1, Point p2) {
                 int d1 = Math.abs(p1.x) + Math.abs(p1.y);
                 int d2 = Math.abs(p2.x) + Math.abs(p2.y);
                 if (d1 > d2) {
