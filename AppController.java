@@ -1,5 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,7 +21,7 @@ public class AppController {
     private TetrisController controller;
 
     public AppController(JFrame mainFrame) {
-        this.mainFrame = mainFrame;
+        this.setMainFrame(mainFrame);
 
         JPanel parent = new JPanel();
         parent.setLayout(new BorderLayout());
@@ -34,8 +37,18 @@ public class AppController {
 
         model = new TetrisModel();
         game  = new TetrisView(this, model);
-        controller = new TetrisController(model, game);
+        controller = new TetrisController(this, model, game);
         game.setController(controller);
+
+        model.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if (e.getPropertyName().equals("status")) {
+                    GameStatus newStatus = (GameStatus)e.getNewValue();
+                    navigation.updatePlayPauseButton(newStatus);
+                }
+            }
+        });
 
         cardsPanel.add(home, "home");
         cardsPanel.add(game, "game");
@@ -43,10 +56,25 @@ public class AppController {
         parent.add(cardsPanel, BorderLayout.CENTER);
         mainFrame.add(parent);
         cardsLayout.show(cardsPanel, "home");
+        home.requestFocus();
     }
 
     public void playGame() {
+        navigation.togglePlayPause();
         cardsLayout.show(cardsPanel, "game");
         game.requestFocus();
+    }
+
+    public void togglePlayPause() {
+        game.requestFocus();
+        controller.togglePlayPause();
+    }
+
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void setMainFrame(JFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
 }

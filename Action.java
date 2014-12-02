@@ -7,5 +7,6 @@ public enum Action {
     SOFT_DROP,
     ROTATE_CLOCKWISE,
     ROTATE_COUNTER_CLOCKWISE,
-    LOCK_MINO;
+    LOCK_MINO,
+    TOGGLE_PAUSE;
 }

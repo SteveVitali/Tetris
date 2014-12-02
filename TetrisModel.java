@@ -9,6 +9,7 @@ public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final long MINO_LOCK_DELAY = 1000;
+    private GameStatus status;
     private MinoType holdMino;
     private MatrixModel matrix;
     private QueueModel nextQueue;
@@ -28,6 +29,7 @@ public class TetrisModel {
         pendingActions = new LinkedList<Action>();
         canHold = true;
         linesCleared = 0;
+        setStatus(GameStatus.PAUSED);
     }
 
     public MatrixModel getMatrix() {
@@ -44,8 +46,20 @@ public class TetrisModel {
 
     public void setKeyPressed(int keyCode) {
         if (keyBindings.hasBinding(keyCode)) {
-            Action newAction = keyBindings.actionForKey(keyCode);
-            pendingActions.add(newAction);
+            switch (status) {
+            case PLAYING:
+                Action newAction = keyBindings.actionForKey(keyCode);
+                pendingActions.add(newAction);
+                break;
+            case PAUSED:
+                if (keyCode == keyBindings.keyForAction(Action.TOGGLE_PAUSE)) {
+                    addAction(Action.TOGGLE_PAUSE);
+                }
+                break;
+            default:
+                break;
+            }
+
         }
     }
 
@@ -169,12 +183,12 @@ public class TetrisModel {
         this.pcs.addPropertyChangeListener(listener);
     }
 
-    public void startTimer() {
-        timer.setStartTime(System.currentTimeMillis());
+    public void setTime(long time) {
+        timer.updateTime(time);
     }
 
-    public void updateTime(long time) {
-        timer.updateTime(time);
+    public void addTime(long time) {
+        timer.addTime(time);
     }
 
     public int getLinesCleared() {
@@ -183,5 +197,14 @@ public class TetrisModel {
 
     public void setLinesCleared(int linesCleared) {
         this.linesCleared = linesCleared;
+    }
+
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GameStatus status) {
+        pcs.firePropertyChange("status", this.status, status);
+        this.status = status;
     }
 }

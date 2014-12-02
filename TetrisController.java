@@ -8,29 +8,56 @@ public class TetrisController {
 
     private TetrisModel model;
     private TetrisView view;
+    private AppController app;
+
+    private Timer dropTimer;
+    private Timer tickTimer;
 
     public static final int TICK_INTERVAL = 30;
     public static final int DROP_INTERVAL = 1000;
 
-    public TetrisController(TetrisModel m, TetrisView v) {
+    public TetrisController(AppController a, TetrisModel m, TetrisView v) {
+        this.app   = a;
         this.model = m;
         this.view  = v;
 
-        model.startTimer();
-        Timer tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
+        initGame();
+    }
+
+    public void initGame() {
+        model.setTime(0);
+        tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tick();
-                model.updateTime(System.currentTimeMillis());
+                if (model.getStatus() == GameStatus.PLAYING) {
+                    model.addTime(TICK_INTERVAL);
+                }
             }
         });
         tickTimer.start();
 
-        Timer dropTimer = new Timer(DROP_INTERVAL, new ActionListener() {
+        dropTimer = new Timer(DROP_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                softDropCurrentMino();
+                if (model.getStatus() == GameStatus.PLAYING) {
+                    softDropCurrentMino();
+                }
             }
         });
-        dropTimer.start();
+    }
+
+    public void togglePlayPause() {
+        switch (model.getStatus()) {
+            case PLAYING:
+                dropTimer.stop();
+                model.setStatus(GameStatus.PAUSED);
+                break;
+            case PAUSED:
+                dropTimer.start();
+                model.setStatus(GameStatus.PLAYING);
+                break;
+            default:
+                break;
+        }
     }
 
     private void tick() {
@@ -60,6 +87,9 @@ public class TetrisController {
                 break;
             case LOCK_MINO:
                 model.lockMinoIntoMatrix();
+                break;
+            case TOGGLE_PAUSE:
+                togglePlayPause();
                 break;
             }
             model.checkHitBottom();

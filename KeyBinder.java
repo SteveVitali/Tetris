@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Map.Entry;
 
 public class KeyBinder {
 
@@ -15,6 +16,7 @@ public class KeyBinder {
         bindingMap.put(KeyEvent.VK_DOWN, Action.SOFT_DROP);
         bindingMap.put(KeyEvent.VK_UP, Action.ROTATE_CLOCKWISE);
         bindingMap.put(KeyEvent.VK_SHIFT, Action.ROTATE_COUNTER_CLOCKWISE);
+        bindingMap.put(KeyEvent.VK_P, Action.TOGGLE_PAUSE);
     }
 
     public void setKeyBinding(int keyCode, Action action) {
@@ -35,5 +37,15 @@ public class KeyBinder {
 
     public Action actionForKey(int keyCode) {
         return bindingMap.get(keyCode);
+    }
+
+    public int keyForAction(Action action) {
+        for (Entry<Integer,Action> e : bindingMap.entrySet()) {
+            if (e.getValue() == action) {
+                return e.getKey();
+            }
+        }
+        System.out.println("welp");
+        return 0;
     }
 }

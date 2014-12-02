@@ -1,18 +1,9 @@
 
 public class TimerModel {
-    private long startTime;
     private long time;
 
     public TimerModel() {
         time = 0;
-    }
-
-    public void setStartTime(long start) {
-        this.startTime = start;
-    }
-
-    public long getStartTime() {
-        return startTime;
     }
 
     public String getTimeString() {
@@ -33,6 +24,10 @@ public class TimerModel {
     }
 
     public void updateTime(long time) {
-        this.time = time - startTime;
+        this.time = time;
+    }
+
+    public void addTime(long time) {
+        this.time += time;
     }
 }
