@@ -1,27 +1,26 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JMenuBar;
 
 @SuppressWarnings("serial")
 public class NavigationBar extends JMenuBar {
 
     private AppController app;
-    private JButton playButton;
-    private JButton highScoresButton;
-    private JButton connectButton;
-    private JButton helpButton;
+    private TetrisButton playButton;
+    private TetrisButton highScoresButton;
+    private TetrisButton connectButton;
+    private TetrisButton helpButton;
 
     public NavigationBar(AppController app) {
         this.app = app;
 
         setBackground(Color.black);
 
-        playButton = new JButton("Pause");
-        highScoresButton = new JButton("High Scores");
-        connectButton = new JButton("Connect");
-        helpButton = new JButton("Help");
+        playButton = new TetrisButton("Pause");
+        highScoresButton = new TetrisButton("High Scores");
+        connectButton = new TetrisButton("Connect");
+        helpButton = new TetrisButton("Help");
 
         playButton.addActionListener(new ActionListener() {
             @Override
@@ -34,6 +33,8 @@ public class NavigationBar extends JMenuBar {
         add(highScoresButton);
         add(connectButton);
         add(helpButton);
+
+        playButton.setEnabled(false);
     }
 
     public void togglePlayPause() {
@@ -41,6 +42,7 @@ public class NavigationBar extends JMenuBar {
     }
 
     public void updatePlayPauseButton(GameStatus status) {
+        playButton.setEnabled(true);
         switch (status) {
             case PLAYING:
                 playButton.setText("Pause");

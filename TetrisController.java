@@ -8,13 +8,13 @@ public class TetrisController {
 
     private TetrisModel model;
     private TetrisView view;
+    @SuppressWarnings("unused")
     private AppController app;
 
-    private Timer dropTimer;
     private Timer tickTimer;
 
+    public static final int DROP_INTERVAL = 900;
     public static final int TICK_INTERVAL = 30;
-    public static final int DROP_INTERVAL = 1000;
 
     public TetrisController(AppController a, TetrisModel m, TetrisView v) {
         this.app   = a;
@@ -31,28 +31,21 @@ public class TetrisController {
                 tick();
                 if (model.getStatus() == GameStatus.PLAYING) {
                     model.addTime(TICK_INTERVAL);
+                    if (model.getTimer().getTime() % DROP_INTERVAL == 0) {
+                        softDropCurrentMino();
+                    }
                 }
             }
         });
         tickTimer.start();
-
-        dropTimer = new Timer(DROP_INTERVAL, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (model.getStatus() == GameStatus.PLAYING) {
-                    softDropCurrentMino();
-                }
-            }
-        });
     }
 
     public void togglePlayPause() {
         switch (model.getStatus()) {
             case PLAYING:
-                dropTimer.stop();
                 model.setStatus(GameStatus.PAUSED);
                 break;
             case PAUSED:
-                dropTimer.start();
                 model.setStatus(GameStatus.PLAYING);
                 break;
             default:

@@ -3,21 +3,19 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class HomePanel extends JPanel {
 
     private AppController app;
-    private JButton playButton;
+    private TetrisButton playButton;
 
     public HomePanel(AppController app) {
         this.app = app;
         setBackground(Color.black);
 
-        playButton = new JButton("Play");
+        playButton = new TetrisButton("Play");
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

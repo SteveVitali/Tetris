@@ -30,4 +30,8 @@ public class TimerModel {
     public void addTime(long time) {
         this.time += time;
     }
+
+    public long getTime() {
+        return time;
+    }
 }
