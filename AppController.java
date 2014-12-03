@@ -19,6 +19,7 @@ public class AppController {
     private TetrisView game;
     private TetrisModel model;
     private TetrisController controller;
+    private HelpWindow help;
 
     public AppController(JFrame mainFrame) {
         this.setMainFrame(mainFrame);
@@ -28,6 +29,8 @@ public class AppController {
 
         navigation = new NavigationBar(this);
         parent.add(navigation, BorderLayout.NORTH);
+
+        help = new HelpWindow();
 
         cardsPanel = new JPanel();
         cardsLayout = new CardLayout();
@@ -68,6 +71,11 @@ public class AppController {
     public void togglePlayPause() {
         game.requestFocus();
         controller.togglePlayPause();
+    }
+
+    public void showHelp() {
+        help.setVisible(true);
+        model.setStatus(GameStatus.PAUSED);
     }
 
     public JFrame getMainFrame() {

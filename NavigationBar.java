@@ -17,10 +17,16 @@ public class NavigationBar extends JMenuBar {
 
         setBackground(Color.black);
 
+        addPlayButton();
+        addHighScoresButton();
+        addConnectButton();
+        addHelpButton();
+
+        playButton.setEnabled(false);
+    }
+
+    private void addPlayButton() {
         playButton = new TetrisButton("Pause");
-        highScoresButton = new TetrisButton("High Scores");
-        connectButton = new TetrisButton("Connect");
-        helpButton = new TetrisButton("Help");
 
         playButton.addActionListener(new ActionListener() {
             @Override
@@ -30,11 +36,29 @@ public class NavigationBar extends JMenuBar {
         });
 
         add(playButton);
-        add(highScoresButton);
-        add(connectButton);
-        add(helpButton);
+    }
 
-        playButton.setEnabled(false);
+    private void addHighScoresButton() {
+        highScoresButton = new TetrisButton("High Scores");
+        add(highScoresButton);
+    }
+
+    private void addConnectButton() {
+        connectButton = new TetrisButton("Connect");
+        add(connectButton);
+    }
+
+    private void addHelpButton() {
+        helpButton = new TetrisButton("Help");
+
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.showHelp();
+            }
+        });
+
+        add(helpButton);
     }
 
     public void togglePlayPause() {
