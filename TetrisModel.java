@@ -22,6 +22,10 @@ public class TetrisModel {
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
+        initializeGameData();
+    }
+
+    public void initializeGameData() {
         matrix = new MatrixModel();
         nextQueue = new QueueModel(5);
         matrix.setCurrentMino(new Mino());
@@ -29,7 +33,7 @@ public class TetrisModel {
         pendingActions = new LinkedList<Action>();
         canHold = true;
         linesCleared = 0;
-        setStatus(GameStatus.PAUSED);
+        setStatus(GameStatus.BEFORE_GAME);
     }
 
     public MatrixModel getMatrix() {
@@ -49,7 +53,7 @@ public class TetrisModel {
             switch (status) {
             case PLAYING:
                 Action newAction = keyBindings.actionForKey(keyCode);
-                pendingActions.add(newAction);
+                addAction(newAction);
                 break;
             case PAUSED:
                 if (keyCode == keyBindings.keyForAction(Action.TOGGLE_PAUSE)) {
@@ -105,7 +109,6 @@ public class TetrisModel {
         Mino currentMino = matrix.getCurrentMino();
         if (!matrix.canMove(currentMino, 0, 1)) {
             beginMinoLockDelay();
-            System.out.println("HIT BOTTOM");
         }
     }
 
@@ -134,11 +137,15 @@ public class TetrisModel {
     }
 
     public void lockMinoIntoMatrix() {
-        matrix.lockMinoIntoMatrix();
-        matrix.setCurrentMino(nextQueue.popMino());
-        resetMinoLockDelay();
-        linesCleared += matrix.clearLines();
-        canHold = true;
+        boolean success = matrix.lockMinoIntoMatrix();
+        if (success) {
+            matrix.setCurrentMino(nextQueue.popMino());
+            resetMinoLockDelay();
+            linesCleared += matrix.clearLines();
+            canHold = true;
+        } else {
+            setStatus(GameStatus.GAME_OVER);
+        }
     }
 
     public void hold() {
@@ -206,5 +213,9 @@ public class TetrisModel {
     public void setStatus(GameStatus status) {
         pcs.firePropertyChange("status", this.status, status);
         this.status = status;
+    }
+
+    public long getFinalTime() {
+        return timer.getTime();
     }
 }

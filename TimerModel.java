@@ -6,6 +6,10 @@ public class TimerModel {
         time = 0;
     }
 
+    public TimerModel(long time) {
+        this.time = time;
+    }
+
     public String getTimeString() {
         int milliseconds = (int)(time % 1000);
         milliseconds = milliseconds - (milliseconds % 10);
@@ -33,5 +37,9 @@ public class TimerModel {
 
     public long getTime() {
         return time;
+    }
+
+    public static String getTimeString(long time) {
+        return (new TimerModel(time)).getTimeString();
     }
 }

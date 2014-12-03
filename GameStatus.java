@@ -1,4 +1,7 @@
 
 public enum GameStatus {
-    COUNTDOWN, PLAYING, PAUSED
+    BEFORE_GAME,
+    PLAYING,
+    PAUSED,
+    GAME_OVER;
 }

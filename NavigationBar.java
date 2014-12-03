@@ -31,7 +31,7 @@ public class NavigationBar extends JMenuBar {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                togglePlayPause();
+                playPauseButtonClicked();
             }
         });
 
@@ -61,19 +61,37 @@ public class NavigationBar extends JMenuBar {
         add(helpButton);
     }
 
-    public void togglePlayPause() {
-        app.togglePlayPause();
+    public void playPauseButtonClicked() {
+        switch (app.getStatus()) {
+            case GAME_OVER:
+            case BEFORE_GAME:
+                app.startNewGame();
+                break;
+            case PLAYING:
+            case PAUSED:
+                app.togglePlayPause();
+                break;
+        }
     }
 
-    public void updatePlayPauseButton(GameStatus status) {
+    public void updateButtonStates(GameStatus status) {
         playButton.setEnabled(true);
         switch (status) {
             case PLAYING:
                 playButton.setText("Pause");
+                highScoresButton.setEnabled(false);
+                connectButton.setEnabled(false);
                 break;
             case PAUSED:
                 playButton.setText("Play");
+                highScoresButton.setEnabled(false);
+                connectButton.setEnabled(false);
                 break;
+            case GAME_OVER:
+            case BEFORE_GAME:
+                playButton.setText("Play");
+                highScoresButton.setEnabled(true);
+                connectButton.setEnabled(true);
             default:
                 break;
         }

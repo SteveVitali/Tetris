@@ -1,23 +1,18 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Timer;
-
 
 public class TetrisController {
 
     private TetrisModel model;
     private TetrisView view;
-    @SuppressWarnings("unused")
-    private AppController app;
 
     private Timer tickTimer;
 
     public static final int DROP_INTERVAL = 900;
     public static final int TICK_INTERVAL = 30;
 
-    public TetrisController(AppController a, TetrisModel m, TetrisView v) {
-        this.app   = a;
+    public TetrisController(TetrisModel m, TetrisView v) {
         this.model = m;
         this.view  = v;
 
@@ -29,31 +24,31 @@ public class TetrisController {
         tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tick();
-                if (model.getStatus() == GameStatus.PLAYING) {
-                    model.addTime(TICK_INTERVAL);
-                    if (model.getTimer().getTime() % DROP_INTERVAL == 0) {
-                        softDropCurrentMino();
-                    }
-                }
             }
         });
         tickTimer.start();
     }
 
-    public void togglePlayPause() {
+    private void tick() {
+        doActions();
+
         switch (model.getStatus()) {
             case PLAYING:
-                model.setStatus(GameStatus.PAUSED);
+                model.addTime(TICK_INTERVAL);
+                if (model.getTimer().getTime() % DROP_INTERVAL == 0) {
+                    softDropCurrentMino();
+                }
+                break;
+            case GAME_OVER:
                 break;
             case PAUSED:
-                model.setStatus(GameStatus.PLAYING);
                 break;
-            default:
+            case BEFORE_GAME:
                 break;
         }
     }
 
-    private void tick() {
+    private void doActions() {
         Action action;
         while ((action = model.popAction()) != null) {
             switch (action) {
@@ -92,5 +87,21 @@ public class TetrisController {
 
     private void softDropCurrentMino() {
         model.addAction(Action.SOFT_DROP);
+    }
+
+    public void togglePlayPause() {
+        switch (model.getStatus()) {
+            case PLAYING:
+                model.setStatus(GameStatus.PAUSED);
+                break;
+            case PAUSED:
+                model.setStatus(GameStatus.PLAYING);
+                break;
+            case BEFORE_GAME:
+                model.setStatus(GameStatus.PLAYING);
+                break;
+            default:
+                break;
+        }
     }
 }

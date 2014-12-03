@@ -103,13 +103,19 @@ public class MatrixModel {
         }
     }
 
-    public void lockMinoIntoMatrix() {
-        Color color = currentMino.getColor();
-        for (int[] coor : currentMino.getCoors()) {
-            int x = coor[0];
-            int y = coor[1];
-            this.colors[x][y] = color;
+    public boolean lockMinoIntoMatrix() {
+        boolean success = true;
+        try {
+            Color color = currentMino.getColor();
+            for (int[] coor : currentMino.getCoors()) {
+                int x = coor[0];
+                int y = coor[1];
+                this.colors[x][y] = color;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            success = false;
         }
+        return success;
     }
 
     // Clear lines and return number cleared

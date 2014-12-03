@@ -27,7 +27,7 @@ public class HomePanel extends JPanel {
     }
 
     public void playGame() {
-        app.playGame();
+        app.startNewGame();
     }
 
     @Override

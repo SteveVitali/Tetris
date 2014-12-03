@@ -1,9 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class AppController {
@@ -16,10 +19,14 @@ public class AppController {
     private CardLayout cardsLayout;
     private JPanel cardsPanel;
     private HomePanel home;
+    private HelpWindow help;
+
     private TetrisView game;
     private TetrisModel model;
     private TetrisController controller;
-    private HelpWindow help;
+
+    private HighScoresModel scoresModel;
+    private HighScoresView scoresView;
 
     public AppController(JFrame mainFrame) {
         this.setMainFrame(mainFrame);
@@ -40,7 +47,7 @@ public class AppController {
 
         model = new TetrisModel();
         game  = new TetrisView(this, model);
-        controller = new TetrisController(this, model, game);
+        controller = new TetrisController(model, game);
         game.setController(controller);
 
         model.addPropertyChangeListener(new PropertyChangeListener() {
@@ -48,29 +55,65 @@ public class AppController {
             public void propertyChange(PropertyChangeEvent e) {
                 if (e.getPropertyName().equals("status")) {
                     GameStatus newStatus = (GameStatus)e.getNewValue();
-                    navigation.updatePlayPauseButton(newStatus);
+                    gameStatusChanged(newStatus);
                 }
             }
         });
 
+        scoresModel = new HighScoresModel();
+        scoresView  = new HighScoresView(scoresModel);
+
         cardsPanel.add(home, "home");
         cardsPanel.add(game, "game");
+        cardsPanel.add(scoresView, "scoresView");
 
         parent.add(cardsPanel, BorderLayout.CENTER);
         mainFrame.add(parent);
         cardsLayout.show(cardsPanel, "home");
+
+        addFocusListener();
         home.requestFocus();
     }
 
-    public void playGame() {
-        navigation.togglePlayPause();
+    private void addFocusListener() {
+        mainFrame.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                if (model.getStatus() == GameStatus.PAUSED) {
+                    model.setStatus(GameStatus.PLAYING);
+                }
+            }
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                if (model.getStatus() == GameStatus.PLAYING) {
+                    model.setStatus(GameStatus.PAUSED);
+                }
+            }
+        });
+    }
+
+    private void gameStatusChanged(GameStatus status) {
+        navigation.updateButtonStates(status);
+        switch (status) {
+            case GAME_OVER:
+                String text = JOptionPane.showInputDialog("GAME OVER \nName:");
+                scoresModel.addScore(text, model.getFinalTime());
+                cardsLayout.show(cardsPanel, "scoresView");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void startNewGame() {
         cardsLayout.show(cardsPanel, "game");
         game.requestFocus();
+        model.setStatus(GameStatus.PLAYING);
     }
 
     public void togglePlayPause() {
-        game.requestFocus();
         controller.togglePlayPause();
+        game.requestFocus();
     }
 
     public void showHelp() {
@@ -84,5 +127,9 @@ public class AppController {
 
     public void setMainFrame(JFrame mainFrame) {
         this.mainFrame = mainFrame;
+    }
+
+    public GameStatus getStatus() {
+        return model.getStatus();
     }
 }
