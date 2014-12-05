@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.util.Random;
 
-
 public enum MinoType {
     I, J, L, S, Z, T, O;
 

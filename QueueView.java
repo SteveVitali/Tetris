@@ -11,10 +11,17 @@ public class QueueView extends JPanel {
     private QueueModel model;
     private MinoPanel[] minoPanels;
 
+    public QueueView() {}
+
     public QueueView(QueueModel m) {
+        setModel(m);
+    }
+
+    public void setModel(QueueModel m) {
         this.model = m;
         this.minoPanels = new MinoPanel[model.getSize()];
 
+        this.removeAll();
         setOpaque(false);
 
         for (int i = 0; i < minoPanels.length; i++) {
@@ -22,6 +29,8 @@ public class QueueView extends JPanel {
             this.add(minoPanels[i]);
         }
         updateMinoPanels();
+        revalidate();
+        repaint();
     }
 
     public void updateMinoPanels() {

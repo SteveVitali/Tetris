@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
 
 public class TetrisController {
@@ -12,15 +13,23 @@ public class TetrisController {
     public static final int DROP_INTERVAL = 900;
     public static final int TICK_INTERVAL = 30;
 
-    public TetrisController(TetrisModel m, TetrisView v) {
-        this.model = m;
-        this.view  = v;
-
-        initGame();
+    public TetrisController(TetrisView v) {
+        setView(v);
     }
 
-    public void initGame() {
+    public void setView(TetrisView v) {
+        this.view = v;
+    }
+
+    public void setModel(TetrisModel m) {
+        this.model = m;
+        this.view.setModel(m);
+    }
+
+    public void startGame() {
+        model.setStatus(GameStatus.PLAYING);
         model.setTime(0);
+
         tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tick();

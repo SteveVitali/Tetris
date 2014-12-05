@@ -12,7 +12,13 @@ public class MatrixView extends JPanel {
 
     private MatrixModel model;
 
+    public MatrixView() {}
+
     public MatrixView(MatrixModel m) {
+        setModel(m);
+    }
+
+    public void setModel(MatrixModel m) {
         this.model = m;
     }
 

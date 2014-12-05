@@ -3,9 +3,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -20,18 +21,40 @@ public class TetrisView extends JPanel {
     private TimerView timer;
     private MinoPanel hold;
 
-    public TetrisView(AppController app, TetrisModel m) {
+    public TetrisView(AppController app) {
         this.app = app;
+
+        this.matrix = new MatrixView();
+        this.queue  = new QueueView ();
+        this.timer  = new TimerView ();
+        this.hold   = new MinoPanel();
+
+        JPanel west = new JPanel();
+        west.setLayout(new FlowLayout());
+        west.setPreferredSize(new Dimension(100, 512));
+        west.setOpaque(false);
+        west.add(hold);
+        west.add(timer);
+        add(west  , BorderLayout.WEST);
+        add(matrix, BorderLayout.CENTER);
+        add(queue , BorderLayout.EAST);
+
+        setLayout( new FlowLayout() );
+        addKeyListener(new KeyHandler());
+        setFocusable(true);
+        setBackground(Color.black);
+    }
+
+    public void setModel(TetrisModel m) {
         this.model = m;
 
         MatrixModel matrixModel = model.getMatrix();
         QueueModel  queueModel  = model.getQueue();
         TimerModel  timerModel  = model.getTimer();
 
-        this.matrix = new MatrixView(matrixModel);
-        this.queue  = new QueueView (queueModel);
-        this.timer  = new TimerView (timerModel);
-        this.hold   = new MinoPanel();
+        matrix.setModel(matrixModel);
+        queue.setModel(queueModel);
+        timer.setModel(timerModel);
 
         queueModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -50,21 +73,6 @@ public class TetrisView extends JPanel {
                 }
             }
         });
-
-        JPanel west = new JPanel();
-        west.setLayout(new FlowLayout());
-        west.setPreferredSize(new Dimension(100, 512));
-        west.setOpaque(false);
-        west.add(hold);
-        west.add(timer);
-        add(west  , BorderLayout.WEST);
-        add(matrix, BorderLayout.CENTER);
-        add(queue , BorderLayout.EAST);
-
-        setLayout( new FlowLayout() );
-        addKeyListener(new KeyHandler(model));
-        setFocusable(true);
-        setBackground(Color.black);
     }
 
     public void setController(TetrisController c) {
@@ -79,5 +87,19 @@ public class TetrisView extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(app.WIDTH, app.HEIGHT);
+    }
+
+    private class KeyHandler implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            model.setKeyPressed(e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
     }
 }

@@ -21,9 +21,9 @@ public class AppController {
     private HomePanel home;
     private HelpWindow help;
 
-    private TetrisView game;
-    private TetrisModel model;
-    private TetrisController controller;
+    private TetrisView gameView;
+    private TetrisModel gameModel;
+    private TetrisController gameController;
 
     private HighScoresModel scoresModel;
     private HighScoresView scoresView;
@@ -45,26 +45,14 @@ public class AppController {
 
         home = new HomePanel(this);
 
-        model = new TetrisModel();
-        game  = new TetrisView(this, model);
-        controller = new TetrisController(model, game);
-        game.setController(controller);
-
-        model.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName().equals("status")) {
-                    GameStatus newStatus = (GameStatus)e.getNewValue();
-                    gameStatusChanged(newStatus);
-                }
-            }
-        });
+        gameView  = new TetrisView(this);
+        gameController = new TetrisController(gameView);
 
         scoresModel = new HighScoresModel();
         scoresView  = new HighScoresView(scoresModel);
 
         cardsPanel.add(home, "home");
-        cardsPanel.add(game, "game");
+        cardsPanel.add(gameView, "game");
         cardsPanel.add(scoresView, "scoresView");
 
         parent.add(cardsPanel, BorderLayout.CENTER);
@@ -79,14 +67,16 @@ public class AppController {
         mainFrame.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
-                if (model.getStatus() == GameStatus.PAUSED) {
-                    model.setStatus(GameStatus.PLAYING);
+                if (gameModel != null &&
+                    gameModel.getStatus() == GameStatus.PAUSED) {
+                    gameModel.setStatus(GameStatus.PLAYING);
                 }
             }
             @Override
             public void windowLostFocus(WindowEvent e) {
-                if (model.getStatus() == GameStatus.PLAYING) {
-                    model.setStatus(GameStatus.PAUSED);
+                if (gameModel != null &&
+                    gameModel.getStatus() == GameStatus.PLAYING) {
+                    gameModel.setStatus(GameStatus.PAUSED);
                 }
             }
         });
@@ -97,7 +87,7 @@ public class AppController {
         switch (status) {
             case GAME_OVER:
                 String text = JOptionPane.showInputDialog("GAME OVER \nName:");
-                scoresModel.addScore(text, model.getFinalTime());
+                scoresModel.addScore(text, gameModel.getFinalTime());
                 cardsLayout.show(cardsPanel, "scoresView");
                 break;
             default:
@@ -106,19 +96,30 @@ public class AppController {
     }
 
     public void startNewGame() {
+        gameModel = new TetrisModel();
+        gameModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if (e.getPropertyName().equals("status")) {
+                    GameStatus newStatus = (GameStatus)e.getNewValue();
+                    gameStatusChanged(newStatus);
+                }
+            }
+        });
+        gameController.setModel(gameModel);
         cardsLayout.show(cardsPanel, "game");
-        game.requestFocus();
-        model.setStatus(GameStatus.PLAYING);
+        gameView.requestFocus();
+        gameController.startGame();
     }
 
     public void togglePlayPause() {
-        controller.togglePlayPause();
-        game.requestFocus();
+        gameController.togglePlayPause();
+        gameView.requestFocus();
     }
 
     public void showHelp() {
         help.setVisible(true);
-        model.setStatus(GameStatus.PAUSED);
+        gameModel.setStatus(GameStatus.PAUSED);
     }
 
     public JFrame getMainFrame() {
@@ -130,6 +131,6 @@ public class AppController {
     }
 
     public GameStatus getStatus() {
-        return model.getStatus();
+        return gameModel.getStatus();
     }
 }

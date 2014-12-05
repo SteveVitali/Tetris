@@ -10,9 +10,15 @@ public class TimerView extends GameElementPanel {
     private int HEIGHT = 38;
     private TimerModel model;
 
+    public TimerView() {}
+
     public TimerView(TimerModel m) {
-        this.model = m;
+        setModel(m);
         this.setOpaque(false);
+    }
+
+    public void setModel(TimerModel m) {
+        this.model = m;
     }
 
     @Override
