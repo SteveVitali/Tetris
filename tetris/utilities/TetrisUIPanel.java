@@ -1,7 +1,5 @@
-package tetris.ui;
-
+package tetris.utilities;
 import javax.swing.JPanel;
-
 import tetris.game.AppController;
 
 @SuppressWarnings("serial")

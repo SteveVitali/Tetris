@@ -3,8 +3,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import tetris.ui.TetrisUIButton;
-import tetris.ui.TetrisUIPanel;
+
+import tetris.utilities.TetrisUIButton;
+import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
 public class HomePanel extends TetrisUIPanel {

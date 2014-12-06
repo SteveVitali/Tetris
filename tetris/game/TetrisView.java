@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
-import tetris.ui.TetrisUIPanel;
+import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
 public class TetrisView extends TetrisUIPanel {

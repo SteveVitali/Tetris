@@ -2,6 +2,7 @@ package tetris.game;
 import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,11 +22,11 @@ public class TetrisModel {
     private TimerTask minoLockTask;
 
     private int linesCleared = 0;
-    private int singles  = 0;
-    private int doubles  = 0;
-    private int triples  = 0;
-    private int tetrises = 0;
-    private int minoCount= 0;
+    private int minoCount = 0;
+
+    HashMap<Integer,Integer> lineClearMap;
+    HashMap<Integer,Integer> consecutiveTetrisesMap;
+    private int consecutiveTetrises = 0;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -40,6 +41,9 @@ public class TetrisModel {
         pendingActions = new LinkedList<Action>();
         canHold = true;
         linesCleared = 0;
+        consecutiveTetrises = 0;
+        lineClearMap = new HashMap<Integer,Integer>();
+        consecutiveTetrisesMap = new HashMap<Integer,Integer>();
         setStatus(GameStatus.BEFORE_GAME);
     }
 
@@ -148,26 +152,19 @@ public class TetrisModel {
         if (success) {
             matrix.setCurrentMino(nextQueue.popMino());
             resetMinoLockDelay();
-            minoCount++;
-            int numCleared = matrix.clearLines();
-            linesCleared += numCleared;
 
-            switch (numCleared) {
-                case 1:
-                    singles++;
-                    break;
-                case 2:
-                    doubles++;
-                    break;
-                case 3:
-                    triples++;
-                    break;
-                case 4:
-                    tetrises++;
-                    break;
-                default:
-                    break;
+            int numCleared = matrix.clearLines();
+            if (numCleared > 0) {
+                incrementLineClearsOfSize(numCleared);
             }
+            if (numCleared == 4) {
+                consecutiveTetrises++;
+            } else {
+                incrementConsecutiveTetrisData();
+                consecutiveTetrises = 0;
+            }
+            linesCleared += numCleared;
+            minoCount++;
             canHold = true;
         } else {
             setStatus(GameStatus.GAME_OVER);
@@ -245,20 +242,46 @@ public class TetrisModel {
         return linesCleared;
     }
 
-    public int getSingles() {
-        return singles;
+    // getNumberLineClearsOfSize(3) = number of triples, for example
+    public int getNumberLineClearsOfSize(int lineClearSize) {
+        if (lineClearMap.containsKey(lineClearSize)) {
+            return lineClearMap.get(lineClearSize);
+        }
+        return 0;
     }
 
-    public int getDoubles() {
-        return doubles;
+    // size = 3 would return the number of "triple tetrises"
+    // The method name is confusing, but using this structure saves
+    // literally dozens of lines of code and generalizes for streaks of
+    // arbitrary size.
+    public int getNumberOfStreaksOfConsecutiveTetrisesOfSize(int size) {
+        if (consecutiveTetrisesMap.containsKey(size)) {
+            return consecutiveTetrisesMap.get(size);
+        }
+        return 0;
     }
 
-    public int getTriples() {
-        return triples;
+    // Record a new line clear of some size.
+    // For example, we call this with size=3 when a triple line clear occurs.
+    private void incrementLineClearsOfSize(int size) {
+        if (lineClearMap.containsKey(size)) {
+            lineClearMap.put(size, lineClearMap.get(size)+1);
+        } else {
+            lineClearMap.put(size, 1);
+        }
     }
 
-    public int getTetrises() {
-        return tetrises;
+    // When a tetris occurs, we call this, and it uses the consecutive
+    // tetris counter to record
+    private void incrementConsecutiveTetrisData() {
+        if (consecutiveTetrises > 0) {
+            if (consecutiveTetrisesMap.containsKey(consecutiveTetrises)) {
+                int oldValue = consecutiveTetrisesMap.get(consecutiveTetrises);
+                consecutiveTetrisesMap.put(consecutiveTetrises, oldValue+1);
+            } else {
+                consecutiveTetrisesMap.put(consecutiveTetrises, 1);
+            }
+        }
     }
 
     public int getMinoCount() {

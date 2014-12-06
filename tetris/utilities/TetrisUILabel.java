@@ -1,26 +1,22 @@
-package tetris.ui;
+package tetris.utilities;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import javax.swing.JButton;
+import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class TetrisUIButton extends JButton {
+public class TetrisUILabel extends JLabel {
 
-    public TetrisUIButton(String text) {
+    public TetrisUILabel(String text) {
         super(text);
         this.setFont(new Font("Helvetica", Font.PLAIN, 14));
-        setFocusable(false);
+        this.setForeground(Color.white);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(100, 30);
     }
 }

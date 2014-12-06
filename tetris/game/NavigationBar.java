@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuBar;
 
-import tetris.ui.TetrisUIButton;
+import tetris.utilities.TetrisUIButton;
 
 @SuppressWarnings("serial")
 public class NavigationBar extends JMenuBar {

@@ -2,7 +2,7 @@ package tetris.game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import tetris.ui.GameElementPanel;
+import tetris.utilities.GameElementPanel;
 
 @SuppressWarnings("serial")
 public class MinoPanel extends GameElementPanel {

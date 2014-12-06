@@ -138,6 +138,7 @@ public class AppController {
     }
 
     public void showGameStatistics() {
+        statsView.refreshData();
         cardsLayout.show(cardsPanel, "statsView");
     }
 
