@@ -11,6 +11,7 @@ public class NavigationBar extends JMenuBar {
     private TetrisButton highScoresButton;
     private TetrisButton connectButton;
     private TetrisButton helpButton;
+    private TetrisButton abortButton;
 
     public NavigationBar(AppController app) {
         this.app = app;
@@ -18,16 +19,16 @@ public class NavigationBar extends JMenuBar {
         setBackground(Color.black);
 
         addPlayButton();
+        addAbortButton();
         addHighScoresButton();
         addConnectButton();
         addHelpButton();
 
-        playButton.setEnabled(false);
+        updateButtonStates(app.getStatus());
     }
 
     private void addPlayButton() {
-        playButton = new TetrisButton("Pause");
-
+        playButton = new TetrisButton("Play");
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,8 +39,25 @@ public class NavigationBar extends JMenuBar {
         add(playButton);
     }
 
+    private void addAbortButton() {
+        abortButton = new TetrisButton("Abort");
+        abortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.returnToHome();
+            }
+        });
+        add(abortButton);
+    }
+
     private void addHighScoresButton() {
         highScoresButton = new TetrisButton("High Scores");
+        highScoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.showHighScores();
+            }
+        });
         add(highScoresButton);
     }
 
@@ -63,13 +81,15 @@ public class NavigationBar extends JMenuBar {
 
     public void playPauseButtonClicked() {
         switch (app.getStatus()) {
-            case GAME_OVER:
+            case AFTER_GAME:
             case BEFORE_GAME:
                 app.startNewGame();
                 break;
             case PLAYING:
             case PAUSED:
                 app.togglePlayPause();
+                break;
+            default:
                 break;
         }
     }
@@ -81,17 +101,20 @@ public class NavigationBar extends JMenuBar {
                 playButton.setText("Pause");
                 highScoresButton.setEnabled(false);
                 connectButton.setEnabled(false);
+                abortButton.setVisible(true);
                 break;
             case PAUSED:
                 playButton.setText("Play");
                 highScoresButton.setEnabled(false);
                 connectButton.setEnabled(false);
+                abortButton.setVisible(true);
                 break;
-            case GAME_OVER:
+            case AFTER_GAME:
             case BEFORE_GAME:
                 playButton.setText("Play");
                 highScoresButton.setEnabled(true);
                 connectButton.setEnabled(true);
+                abortButton.setVisible(false);
             default:
                 break;
         }

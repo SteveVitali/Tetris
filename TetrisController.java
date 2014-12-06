@@ -38,6 +38,15 @@ public class TetrisController {
         tickTimer.start();
     }
 
+    public void closeGame() {
+        tickTimer.stop();
+    }
+
+    public void endGame() {
+        closeGame();
+        model.setStatus(GameStatus.AFTER_GAME);
+    }
+
     private void tick() {
         doActions();
 
@@ -49,10 +58,13 @@ public class TetrisController {
                 }
                 break;
             case GAME_OVER:
+                endGame();
                 break;
             case PAUSED:
                 break;
             case BEFORE_GAME:
+                break;
+            case AFTER_GAME:
                 break;
         }
     }

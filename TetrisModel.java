@@ -18,7 +18,13 @@ public class TetrisModel {
     private LinkedList<Action> pendingActions;
     private boolean canHold;
     private TimerTask minoLockTask;
-    private int linesCleared;
+
+    private int linesCleared = 0;
+    private int singles  = 0;
+    private int doubles  = 0;
+    private int triples  = 0;
+    private int tetrises = 0;
+    private int minoCount= 0;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -141,7 +147,26 @@ public class TetrisModel {
         if (success) {
             matrix.setCurrentMino(nextQueue.popMino());
             resetMinoLockDelay();
-            linesCleared += matrix.clearLines();
+            minoCount++;
+            int numCleared = matrix.clearLines();
+            linesCleared += numCleared;
+
+            switch (numCleared) {
+                case 1:
+                    singles++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    triples++;
+                    break;
+                case 4:
+                    tetrises++;
+                    break;
+                default:
+                    break;
+            }
             canHold = true;
         } else {
             setStatus(GameStatus.GAME_OVER);
@@ -198,10 +223,6 @@ public class TetrisModel {
         timer.addTime(time);
     }
 
-    public int getLinesCleared() {
-        return linesCleared;
-    }
-
     public void setLinesCleared(int linesCleared) {
         this.linesCleared = linesCleared;
     }
@@ -217,5 +238,29 @@ public class TetrisModel {
 
     public long getFinalTime() {
         return timer.getTime();
+    }
+
+    public int getLinesCleared() {
+        return linesCleared;
+    }
+
+    public int getSingles() {
+        return singles;
+    }
+
+    public int getDoubles() {
+        return doubles;
+    }
+
+    public int getTriples() {
+        return triples;
+    }
+
+    public int getTetrises() {
+        return tetrises;
+    }
+
+    public int getMinoCount() {
+        return minoCount;
     }
 }

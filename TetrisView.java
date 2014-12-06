@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -7,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -42,7 +42,7 @@ public class TetrisView extends JPanel {
         setLayout( new FlowLayout() );
         addKeyListener(new KeyHandler());
         setFocusable(true);
-        setBackground(Color.black);
+        setBackground(AppController.BG_COLOR);
     }
 
     public void setModel(TetrisModel m) {

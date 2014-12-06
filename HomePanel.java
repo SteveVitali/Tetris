@@ -1,8 +1,8 @@
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -13,7 +13,7 @@ public class HomePanel extends JPanel {
 
     public HomePanel(AppController app) {
         this.app = app;
-        setBackground(Color.black);
+        setBackground(AppController.BG_COLOR);
 
         playButton = new TetrisButton("Play");
         playButton.addActionListener(new ActionListener() {
