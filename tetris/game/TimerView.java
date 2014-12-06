@@ -1,7 +1,10 @@
+package tetris.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+
+import tetris.ui.GameElementPanel;
 
 @SuppressWarnings("serial")
 public class TimerView extends GameElementPanel {

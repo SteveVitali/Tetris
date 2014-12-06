@@ -1,17 +1,21 @@
+package tetris.game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JMenuBar;
+
+import tetris.ui.TetrisUIButton;
 
 @SuppressWarnings("serial")
 public class NavigationBar extends JMenuBar {
 
     private AppController app;
-    private TetrisButton playButton;
-    private TetrisButton highScoresButton;
-    private TetrisButton connectButton;
-    private TetrisButton helpButton;
-    private TetrisButton abortButton;
+    private TetrisUIButton playButton;
+    private TetrisUIButton highScoresButton;
+    private TetrisUIButton connectButton;
+    private TetrisUIButton helpButton;
+    private TetrisUIButton abortButton;
 
     public NavigationBar(AppController app) {
         this.app = app;
@@ -28,7 +32,7 @@ public class NavigationBar extends JMenuBar {
     }
 
     private void addPlayButton() {
-        playButton = new TetrisButton("Play");
+        playButton = new TetrisUIButton("Play");
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +44,7 @@ public class NavigationBar extends JMenuBar {
     }
 
     private void addAbortButton() {
-        abortButton = new TetrisButton("Abort");
+        abortButton = new TetrisUIButton("Abort");
         abortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +55,7 @@ public class NavigationBar extends JMenuBar {
     }
 
     private void addHighScoresButton() {
-        highScoresButton = new TetrisButton("High Scores");
+        highScoresButton = new TetrisUIButton("High Scores");
         highScoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,12 +66,12 @@ public class NavigationBar extends JMenuBar {
     }
 
     private void addConnectButton() {
-        connectButton = new TetrisButton("Connect");
+        connectButton = new TetrisUIButton("Connect");
         add(connectButton);
     }
 
     private void addHelpButton() {
-        helpButton = new TetrisButton("Help");
+        helpButton = new TetrisUIButton("Help");
 
         helpButton.addActionListener(new ActionListener() {
             @Override

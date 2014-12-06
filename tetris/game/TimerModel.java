@@ -1,3 +1,4 @@
+package tetris.game;
 
 public class TimerModel {
     private long time;

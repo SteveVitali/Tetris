@@ -1,3 +1,4 @@
+package tetris.game;
 
 public enum GameStatus {
     BEFORE_GAME,

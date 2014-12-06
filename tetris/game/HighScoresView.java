@@ -1,13 +1,12 @@
+package tetris.game;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
@@ -15,15 +14,16 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 
+import tetris.ui.TetrisUIPanel;
+
 @SuppressWarnings("serial")
-public class HighScoresView extends JPanel {
+public class HighScoresView extends TetrisUIPanel {
 
     private HighScoresModel model;
     private JTable scoresTable;
 
     public HighScoresView(HighScoresModel model) {
         this.model = model;
-        setBackground(AppController.BG_COLOR);
 
         model.addPropertyChangeListener(new PropertyChangeListener() {
             @Override

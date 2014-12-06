@@ -1,21 +1,21 @@
+package tetris.game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
+import tetris.ui.TetrisUIButton;
+import tetris.ui.TetrisUIPanel;
 
 @SuppressWarnings("serial")
-public class HomePanel extends JPanel {
+public class HomePanel extends TetrisUIPanel {
 
     private AppController app;
-    private TetrisButton playButton;
+    private TetrisUIButton playButton;
 
     public HomePanel(AppController app) {
         this.app = app;
-        setBackground(AppController.BG_COLOR);
 
-        playButton = new TetrisButton("Play");
+        playButton = new TetrisUIButton("Play");
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

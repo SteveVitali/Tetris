@@ -1,3 +1,4 @@
+package tetris.game;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

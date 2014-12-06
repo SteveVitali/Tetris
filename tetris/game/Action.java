@@ -1,3 +1,4 @@
+package tetris.game;
 
 public enum Action {
     MOVE_LEFT,

@@ -1,3 +1,4 @@
+package tetris.game;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class QueueModel {
     public Mino popMino() {
         Mino popped = queue.pop();
         queue.add(new Mino());
-        System.out.println("it should fire now");
         pcs.firePropertyChange("queue", null, null);
         return popped;
     }

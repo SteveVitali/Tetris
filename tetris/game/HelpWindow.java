@@ -1,3 +1,4 @@
+package tetris.game;
 import java.awt.Dimension;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -23,7 +24,7 @@ public class HelpWindow extends JFrame {
                 WebView view = new WebView();
                 webEngine = view.getEngine();
                 jfxPanel.setScene(new Scene(view));
-                URL htmlURL = getClass().getResource("help/index.html");
+                URL htmlURL = getClass().getResource("/help/index.html");
                 webEngine.load(htmlURL.toExternalForm());
             }
         });

@@ -1,3 +1,4 @@
+package tetris.game;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,8 +10,10 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
+import tetris.ui.TetrisUIPanel;
+
 @SuppressWarnings("serial")
-public class TetrisView extends JPanel {
+public class TetrisView extends TetrisUIPanel {
 
     private AppController app;
     private TetrisModel model;
@@ -39,10 +42,8 @@ public class TetrisView extends JPanel {
         add(matrix, BorderLayout.CENTER);
         add(queue , BorderLayout.EAST);
 
-        setLayout( new FlowLayout() );
         addKeyListener(new KeyHandler());
         setFocusable(true);
-        setBackground(AppController.BG_COLOR);
     }
 
     public void setModel(TetrisModel m) {

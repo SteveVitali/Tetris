@@ -1,3 +1,4 @@
+package tetris.ui;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -5,9 +6,9 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class TetrisButton extends JButton {
+public class TetrisUIButton extends JButton {
 
-    public TetrisButton(String text) {
+    public TetrisUIButton(String text) {
         super(text);
         this.setFont(new Font("Helvetica", Font.PLAIN, 14));
         setFocusable(false);

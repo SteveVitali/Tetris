@@ -1,9 +1,8 @@
+package tetris.ui;
 import java.awt.Color;
 import java.awt.Graphics;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
 
 @SuppressWarnings("serial")
 public class GameElementPanel extends JPanel {
