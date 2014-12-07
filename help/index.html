@@ -7,6 +7,14 @@
 </head>
 <body>
     <div class="container">
+         <h3>Tetris Sprint</h3>
+         <div class="panel panel-default">
+             <div class="panel-body">
+                 Sprint is a Tetris variant where the goal of the game is
+                 to clear 40 lines in the shortest time possible.
+             </div>
+         </div>
+
         <h3>Controls</h3>
         <div class="panel panel-default">
             <div class="panel-body">
@@ -14,6 +22,51 @@
                 </table>
             </div>
         </div>
+
+        <h3>Neat Features</h3>
+         <div class="panel panel-default">
+             <div class="panel-body">
+                <p><strong>High Scores</strong>
+                    When the game is over, we show very granular game
+                    statistics, like minos locked per minute, or number
+                    of double tetrises.
+                </p>
+                <p><strong>High Scores</strong>
+                    The game sends scores to and fetches scores from a
+                    node application with a MongoDB backend.
+                </p>
+                <p><strong>Auto-Pause</strong>
+                    When the application frame loses focus, the game will
+                    automatically pause. And, when you refocus, it will
+                    automatically unpause.
+                </p>
+                <p><strong>Ghost Mino</strong>
+                    Some Tetris games leave out the ghost mino. I think
+                    Tetris is unplayable without a ghost mino, so we have
+                    included a ghost mino.
+                </p>
+                <p><strong>Hold Queue</strong>
+                    This is another one of those minor things that some Tetris
+                    implementations don't include (I'm looking at you, Quinn)
+                    that that is really necessary for a good Tetris experience.
+                    You can store minos in and retrieve minos from the hold
+                    queue (using the 'C' key). This is useful for discarding
+                    of bad minos, or saving up I-minos to get double tetrises.
+                </p>
+                <p><strong>Lock delay</strong>
+                    We have a generous 0.9-second lock delay that resets on
+                    every horizontal translation or rotation, so your minos
+                    won't get locked into the matrix prematurely.
+                </p>
+                <p><strong>Wall-kicks</strong>
+                    We allow mino shifts of up to 3 blocks (up or left/right,
+                    or some combination). Implementations that won't let you
+                    (for example) rotate an I-mino against the wall (again,
+                    I'm looking at you, Quinn) are annoying, so we let you
+                    do that.
+                </p>
+             </div>
+         </div>
     </div>
 
     <script>

@@ -11,7 +11,7 @@ public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final long MINO_LOCK_DELAY = 1000;
-    public final int LINES_PER_GAME = 40;
+    public final int LINES_PER_GAME = 4;
 
     private GameStatus status;
     private MinoType holdMino;
@@ -24,12 +24,12 @@ public class TetrisModel {
     private boolean hasHitWall;
     private TimerTask minoLockTask;
 
-    private int linesCleared = 0;
-    private int minoCount = 0;
+    private int linesCleared;
+    private int minoCount;
 
     HashMap<Integer,Integer> lineClearMap;
     HashMap<Integer,Integer> consecutiveTetrisesMap;
-    private int consecutiveTetrises = 0;
+    private int consecutiveTetrises;
 
     public TetrisModel() {
         keyBindings = new KeyBinder();
@@ -45,6 +45,7 @@ public class TetrisModel {
         canHold = true;
         hasHitWall = true;
         linesCleared = 0;
+        minoCount = 0;
         consecutiveTetrises = 0;
         lineClearMap = new HashMap<Integer,Integer>();
         consecutiveTetrisesMap = new HashMap<Integer,Integer>();

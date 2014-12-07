@@ -95,10 +95,6 @@ public class GameStatisticsView extends TetrisUIPanel {
                 }
             });
         }
-        boolean isWin = model.getLinesCleared() >= model.LINES_PER_GAME;
-        nameField.setVisible(isWin);
-        submitButton.setVisible(isWin);
-        doneButton.setVisible(!isWin);
     }
 
     public void refreshData() {
@@ -132,6 +128,12 @@ public class GameStatisticsView extends TetrisUIPanel {
         }
 
         timeLabel.setText("Time: "+TimerModel.getTimeString(time));
+
+        boolean isWin = (model.getLinesCleared() >= model.LINES_PER_GAME);
+        nameField.setVisible(isWin);
+        submitButton.setVisible(isWin);
+        doneButton.setVisible(!isWin);
+
         revalidate();
         repaint();
     }
