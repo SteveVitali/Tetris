@@ -48,7 +48,7 @@ public class NavigationBar extends JMenuBar {
         abortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.returnToHome();
+                app.showHome();
             }
         });
         add(abortButton);
@@ -67,7 +67,7 @@ public class NavigationBar extends JMenuBar {
 
     private void addConnectButton() {
         connectButton = new TetrisUIButton("Connect");
-        add(connectButton);
+        //add(connectButton);
     }
 
     private void addHelpButton() {

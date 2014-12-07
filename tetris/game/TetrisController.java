@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import tetris.utilities.Sound;
+
 public class TetrisController {
 
     private TetrisModel model;
@@ -72,28 +74,35 @@ public class TetrisController {
 
     private void doActions() {
         Action action;
+        boolean hitWall = false;
+        boolean rotated = false;
+        boolean moved   = false;
         while ((action = model.popAction()) != null) {
             switch (action) {
             case MOVE_LEFT:
-                model.tryMoveX(-1);
+                moved = model.tryMoveX(-1);
+                hitWall = moved ? false : true;
                 break;
             case MOVE_RIGHT:
-                model.tryMoveX(1);
+                moved = model.tryMoveX(1);
+                hitWall = moved ? false : true;
                 break;
             case HOLD:
                 model.hold();
+                Sound.play("/sounds/hold.wav");
                 break;
             case HARD_DROP:
                 model.hardDrop();
+                Sound.play("/sounds/hard_drop.wav");
                 break;
             case SOFT_DROP:
                 model.tryMoveY(1);
                 break;
             case ROTATE_CLOCKWISE:
-                model.tryRotateClockwise();
+                rotated = model.tryRotateClockwise();
                 break;
             case ROTATE_COUNTER_CLOCKWISE:
-                model.tryRotateCounterClockwise();
+                rotated = model.tryRotateCounterClockwise();
                 break;
             case LOCK_MINO:
                 model.lockMinoIntoMatrix();
@@ -103,6 +112,17 @@ public class TetrisController {
                 break;
             }
             model.checkHitBottom();
+            if (rotated) {
+                Sound.play("/sounds/rotate_whoosh.wav");
+            }
+            if (moved) {
+                model.setHasHitWall(false);
+                //Sound.play("/sounds/move-swish.wav");
+            }
+            if (hitWall && !model.getHasHitWall()) {
+                model.setHasHitWall(true);
+                Sound.play("/sounds/hit_wall.wav");
+            }
         }
         view.repaint();
     }
@@ -112,6 +132,7 @@ public class TetrisController {
     }
 
     public void togglePlayPause() {
+        Sound.play("/sounds/tick.wav");
         switch (model.getStatus()) {
             case PLAYING:
                 model.setStatus(GameStatus.PAUSED);

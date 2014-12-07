@@ -34,6 +34,7 @@ public class GameStatisticsView extends TetrisUIPanel {
     };
     private JTextField nameField;
     private JButton submitButton;
+    private JButton doneButton;
 
     public GameStatisticsView(AppController a) {
         this.app = a;
@@ -61,6 +62,7 @@ public class GameStatisticsView extends TetrisUIPanel {
         nameField = new JTextField(18);
         nameField.setFont(new Font("Helvetica", Font.PLAIN, 14));
         submitButton = new JButton("Submit Score");
+        doneButton = new JButton("Done");
 
         TetrisUIPanel containerPanel = new TetrisUIPanel();
         containerPanel.setPreferredSize(new Dimension(700,520));
@@ -68,6 +70,15 @@ public class GameStatisticsView extends TetrisUIPanel {
         containerPanel.add(statsContainer);
         containerPanel.add(nameField);
         containerPanel.add(submitButton);
+        containerPanel.add(doneButton);
+
+        doneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.showHome();
+            }
+        });
+
         add(containerPanel);
     }
 
@@ -84,6 +95,10 @@ public class GameStatisticsView extends TetrisUIPanel {
                 }
             });
         }
+        boolean isWin = model.getLinesCleared() >= model.LINES_PER_GAME;
+        nameField.setVisible(isWin);
+        submitButton.setVisible(isWin);
+        doneButton.setVisible(!isWin);
     }
 
     public void refreshData() {

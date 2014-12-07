@@ -21,6 +21,7 @@ public class TetrisModel {
     private KeyBinder keyBindings;
     private LinkedList<Action> pendingActions;
     private boolean canHold;
+    private boolean hasHitWall;
     private TimerTask minoLockTask;
 
     private int linesCleared = 0;
@@ -42,6 +43,7 @@ public class TetrisModel {
         timer = new TimerModel();
         pendingActions = new LinkedList<Action>();
         canHold = true;
+        hasHitWall = true;
         linesCleared = 0;
         consecutiveTetrises = 0;
         lineClearMap = new HashMap<Integer,Integer>();
@@ -100,22 +102,26 @@ public class TetrisModel {
     // move in both the X and Y directions, and because we want (slightly)
     // different behavior when a Y move is not allowed versus when
     // an X move isn't
-    public void tryMoveX(int dx) {
+    public boolean tryMoveX(int dx) {
         Mino currentMino = matrix.getCurrentMino();
         if (matrix.canMove(currentMino, dx, 0)) {
             currentMino.move(dx, 0);
             matrix.updateGhostCoors();
             resetMinoLockDelay();
+            return true;
         }
+        return false;
     }
 
-    public void tryMoveY(int dy) {
+    public boolean tryMoveY(int dy) {
         Mino currentMino = matrix.getCurrentMino();
         if (matrix.canMove(currentMino, 0, dy)) {
             currentMino.move(0, dy);
             matrix.updateGhostCoors();
             resetMinoLockDelay();
+            return true;
         }
+        return false;
     }
 
     public void checkHitBottom() {
@@ -193,17 +199,17 @@ public class TetrisModel {
         }
     }
 
-    public void tryRotateClockwise() {
+    public boolean tryRotateClockwise() {
         Mino current = matrix.getCurrentMino();
-        tryRotate(current.rotateClockwise());
+        return tryRotate(current.rotateClockwise());
     }
 
-    public void tryRotateCounterClockwise() {
+    public boolean tryRotateCounterClockwise() {
         Mino current = matrix.getCurrentMino();
-        tryRotate(current.rotateCounterClockwise());
+        return tryRotate(current.rotateCounterClockwise());
     }
 
-    public void tryRotate(int[][] newCoors) {
+    public boolean tryRotate(int[][] newCoors) {
         Mino current = matrix.getCurrentMino();
         Point shift = matrix.findClosestValidMinoPlacement(newCoors);
         if (shift != null) {
@@ -211,7 +217,9 @@ public class TetrisModel {
             current.move(shift.x, shift.y);
             matrix.updateGhostCoors();
             resetMinoLockDelay();
+            return true;
         }
+        return false;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -291,5 +299,13 @@ public class TetrisModel {
 
     public int getMinoCount() {
         return minoCount;
+    }
+
+    public boolean getHasHitWall() {
+        return hasHitWall;
+    }
+
+    public void setHasHitWall(boolean hasHitWall) {
+        this.hasHitWall = hasHitWall;
     }
 }

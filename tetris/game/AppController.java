@@ -147,7 +147,7 @@ public class AppController {
         cardsLayout.show(cardsPanel, "statsView");
     }
 
-    public void returnToHome() {
+    public void showHome() {
         gameController.closeGame();
         initializeNewGame();
         navigation.updateButtonStates(getStatus());
