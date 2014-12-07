@@ -3,14 +3,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.text.DecimalFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
-
+import java.text.DecimalFormat;
 import tetris.utilities.TetrisUILabel;
 import tetris.utilities.TetrisUIPanel;
 
@@ -30,6 +32,8 @@ public class GameStatisticsView extends TetrisUIPanel {
             "single tetrises", "double tetrises",
             "triple tetrises"
     };
+    private JTextField nameField;
+    private JButton submitButton;
 
     public GameStatisticsView(AppController a) {
         this.app = a;
@@ -41,8 +45,7 @@ public class GameStatisticsView extends TetrisUIPanel {
         TetrisUIPanel statsTable= new TetrisUIPanel();
         TetrisUIPanel statsContainer = new TetrisUIPanel();
 
-        statsTable.setPreferredSize(new Dimension(560, 512));
-        statsContainer.setPreferredSize(new Dimension(700, 260));
+        statsTable.setPreferredSize(new Dimension(700, 200));
 
         stats = new HashMap<String,String>();
         statsTableCells = new HashMap<String,StatsTableCell>();
@@ -54,12 +57,33 @@ public class GameStatisticsView extends TetrisUIPanel {
             statsTable.add(statsTableCells.get(prop));
         }
         statsContainer.add(statsTable);
-        add(timeLabel);
-        add(statsContainer);
+
+        nameField = new JTextField(18);
+        nameField.setFont(new Font("Helvetica", Font.PLAIN, 14));
+        submitButton = new JButton("Submit Score");
+
+        TetrisUIPanel containerPanel = new TetrisUIPanel();
+        containerPanel.setPreferredSize(new Dimension(700,520));
+        containerPanel.add(timeLabel);
+        containerPanel.add(statsContainer);
+        containerPanel.add(nameField);
+        containerPanel.add(submitButton);
+        add(containerPanel);
     }
 
     public void setModel(TetrisModel m) {
         this.model = m;
+        if (submitButton.getActionListeners().length == 0) {
+            submitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String name = nameField.getText().trim();
+                    if (!name.equals("")) {
+                        app.submitScore(name, model.getFinalTime());
+                    }
+                }
+            });
+        }
     }
 
     public void refreshData() {
@@ -112,9 +136,10 @@ public class GameStatisticsView extends TetrisUIPanel {
             setKey(key);
             setValue(value);
 
-            Border in = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-            Border out = BorderFactory.createLineBorder(new Color(36,36,36));
+            Border in = BorderFactory.createEmptyBorder(4, 8, 4, 8);
+            Border out = BorderFactory.createLineBorder(new Color(54,54,54));
             setBorder(BorderFactory.createCompoundBorder(out, in));
+            setBackground(new Color(36,36,36));
         }
 
         public void setKey(String key) {

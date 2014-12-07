@@ -13,8 +13,8 @@ public class AppController {
 
     public static Color BG_COLOR = new Color(26,26,26);
 
-    public final int WIDTH = 800;
-    public final int HEIGHT= 512;
+    public final int WIDTH = 700;
+    public final int HEIGHT= 600;
 
     private JFrame mainFrame;
     private NavigationBar navigation;
@@ -135,6 +135,11 @@ public class AppController {
 
     public void showHighScores() {
         cardsLayout.show(cardsPanel, "scoresView");
+    }
+
+    public void submitScore(String name, long time) {
+        scoresModel.addScore(name, time);
+        showHighScores();
     }
 
     public void showGameStatistics() {

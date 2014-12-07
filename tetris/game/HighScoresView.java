@@ -37,9 +37,9 @@ public class HighScoresView extends TetrisUIPanel {
 
         scoresTable = new JTable(model.getTableModel());
         scoresTable.setDefaultRenderer(Object.class, new ScoresTableCellRenderer());
-        scoresTable.setOpaque(false);
         scoresTable.setRowHeight(32);
         scoresTable.setBorder(BorderFactory.createEmptyBorder());
+        scoresTable.setOpaque(false);
         scoresTable.setShowGrid(false);
 
         JScrollPane scrollPane = new JScrollPane(scoresTable);

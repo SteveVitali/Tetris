@@ -11,6 +11,8 @@ public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final long MINO_LOCK_DELAY = 1000;
+    public final int LINES_PER_GAME = 40;
+
     private GameStatus status;
     private MinoType holdMino;
     private MatrixModel matrix;
@@ -163,9 +165,12 @@ public class TetrisModel {
                 incrementConsecutiveTetrisData();
                 consecutiveTetrises = 0;
             }
-            linesCleared += numCleared;
-            minoCount++;
             canHold = true;
+            minoCount++;
+            linesCleared += numCleared;
+            if (linesCleared >= LINES_PER_GAME) {
+                setStatus(GameStatus.GAME_OVER);
+            }
         } else {
             setStatus(GameStatus.GAME_OVER);
         }

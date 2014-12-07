@@ -1,15 +1,19 @@
 package tetris.game;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tetris.utilities.GameElementPanel;
 import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
@@ -23,6 +27,7 @@ public class TetrisView extends TetrisUIPanel {
     private QueueView queue;
     private TimerView timer;
     private MinoPanel hold;
+    private MinoCountPanel minoCountPanel;
 
     public TetrisView(AppController app) {
         this.app = app;
@@ -32,12 +37,15 @@ public class TetrisView extends TetrisUIPanel {
         this.timer  = new TimerView ();
         this.hold   = new MinoPanel();
 
+        this.minoCountPanel = new MinoCountPanel();
+
         JPanel west = new JPanel();
         west.setLayout(new FlowLayout());
         west.setPreferredSize(new Dimension(100, 512));
         west.setOpaque(false);
         west.add(hold);
         west.add(timer);
+        west.add(minoCountPanel);
         add(west  , BorderLayout.WEST);
         add(matrix, BorderLayout.CENTER);
         add(queue , BorderLayout.EAST);
@@ -88,6 +96,28 @@ public class TetrisView extends TetrisUIPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(app.WIDTH, app.HEIGHT);
+    }
+
+    public class MinoCountPanel extends GameElementPanel {
+        JLabel label;
+        public MinoCountPanel() {
+            label = new JLabel();
+            label.setOpaque(false);
+            label.setForeground(Color.black);
+            label.setFont(new Font("Helvetica", Font.PLAIN, 18));
+            add(label);
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            label.setText(""+(40 - model.getLinesCleared()));
+            super.paintComponent(g);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(84, 30);
+        }
     }
 
     private class KeyHandler implements KeyListener {

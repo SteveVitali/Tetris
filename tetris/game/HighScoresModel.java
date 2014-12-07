@@ -30,6 +30,10 @@ public class HighScoresModel {
                     return o.getClass();
                 }
             }
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
         };
         tableModel.addColumn("Name", getNames());
         tableModel.addColumn("Time", getTimes());
