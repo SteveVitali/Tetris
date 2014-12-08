@@ -4,8 +4,15 @@ import java.beans.PropertyChangeSupport;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
+
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.http.message.BasicNameValuePair;
+
 import tetris.utilities.JsonHandler;
 import tetris.utilities.HTTPUtilities;
 
@@ -16,23 +23,37 @@ import com.google.gson.JsonObject;
 public class HighScoresModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private ArrayList<Entry<String,Long>> scores;
-    private String getURL = "http://steves-tetris.herokuapp.com/sprint/scores";
+    private List<Entry<String,Long>> scores;
+    private String GET_URL = "http://steves-tetris.herokuapp.com/sprint/scores";
+    private String POST_URL= "http://steves-tetris.herokuapp.com/sprint/scores/new";
 
+    @SuppressWarnings("serial")
     public HighScoresModel() {
+        Comparator<Entry<String,Long>> comparator = new Comparator<Entry<String,Long>>(){
+            @Override
+            public int compare(Entry<String,Long> o1, Entry<String,Long> o2) {
+                return o1.getValue() > o2.getValue() ? 1 : -1;
+            }
+        };
+        this.scores = new ArrayList<Entry<String,Long>>() {
+            public boolean add(Entry<String,Long> score) {
+                super.add(score);
+                Collections.sort(this, comparator);
+                return true;
+            }
+        };
         fetchScoresFromMongoDB();
     }
 
     public void fetchScoresFromMongoDB() {
-        this.scores = new ArrayList<Entry<String,Long>>();
-        HTTPUtilities.jsonArrayGetRequest(getURL, new JsonHandler() {
+        HTTPUtilities.jsonArrayAsyncGetRequest(GET_URL, new JsonHandler() {
             @Override
             public void handleJsonArray(JsonArray scoresJson) {
                 for (JsonElement elem : scoresJson) {
                     JsonObject obj = elem.getAsJsonObject();
                     String name = obj.get("name").getAsString();
                     long time = obj.get("time").getAsLong();
-                    HighScoresModel.this.addScore(name, time);
+                    addScore(name, time);
                 }
                 pcs.firePropertyChange("scores", null, null);
             }
@@ -79,7 +100,19 @@ public class HighScoresModel {
         return times;
     }
 
+    public void postScore(String name, long time) {
+        List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("time", ""+time));
+        String response = HTTPUtilities.jsonArrayPostRequest(POST_URL, params);
+        if (!response.equals("Error")) {
+            addScore(name, time);
+            pcs.firePropertyChange("scores", null, null);
+        }
+    }
+
     public void addScore(String name, long time) {
+        System.out.println("Adding score: ("+name+","+time+")");
         scores.add(createScore(name, time));
     }
 

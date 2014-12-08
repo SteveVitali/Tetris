@@ -138,7 +138,7 @@ public class AppController {
     }
 
     public void submitScore(String name, long time) {
-        scoresModel.addScore(name, time);
+        scoresModel.postScore(name, time);
         showHighScores();
     }
 
