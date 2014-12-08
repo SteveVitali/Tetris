@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
 
+import tetris.utilities.HTTPUtilities;
+
 public class HighScoresModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -15,6 +17,8 @@ public class HighScoresModel {
 
     public HighScoresModel() {
         scores = new ArrayList<Entry<String,Long>>();
+        // Below is how we will get the scores JSON
+        // HTTPUtilities.jsonArrayGetRequest("http://steves-tetris.herokuapp.com/sprint/scores");
     }
 
     @SuppressWarnings("serial")
