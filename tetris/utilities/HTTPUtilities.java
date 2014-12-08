@@ -1,47 +1,48 @@
 package tetris.utilities;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.ning.http.client.AsyncCompletionHandler;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Response;
 
 public class HTTPUtilities {
 
-    public static JsonArray jsonArrayGetRequest(String url) {
-        try {
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpGet getRequest = new HttpGet(url);
-            HttpResponse response = httpClient.execute(getRequest);
+    @SuppressWarnings("resource")
+    public static void jsonArrayGetRequest(String url, JsonHandler handler) {
+        (new AsyncHttpClient())
+        .prepareGet(url)
+        .execute(new AsyncCompletionHandler<Response>(){
+            @Override
+            public Response onCompleted(Response response) throws Exception{
+                // HTTP response code 200 = success
+                if (response.getStatusCode() != 200) {
+                    int err = response.getStatusCode();
+                    throw new RuntimeException("HTTP Error: "+err);
+                }
 
-            // HTTP response code 200 = success
-            if (response.getStatusLine().getStatusCode() != 200) {
-                int err = response.getStatusLine().getStatusCode();
-                throw new RuntimeException("HTTP Error: "+err);
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(response.getResponseBodyAsStream())
+                );
+
+                StringBuffer jsonBuffer = new StringBuffer();
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+                String jsonString = jsonBuffer.toString();
+
+                JsonParser parser = new JsonParser();
+                JsonArray json = (JsonArray) parser.parse(jsonString);
+                handler.handleJsonArray(json);
+                return response;
             }
 
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent())
-            );
-            StringBuffer jsonBuffer = new StringBuffer();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                jsonBuffer.append(line);
+            @Override
+            public void onThrowable(Throwable t){
+                // Something wrong happened.
             }
-            String jsonString = jsonBuffer.toString();
-            JsonParser parser = new JsonParser();
-            JsonArray json = (JsonArray) parser.parse(jsonString);
-            System.out.println("Fetched JSON"+json.toString());
-            return json;
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        });
     }
 }

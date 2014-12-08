@@ -5,20 +5,38 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Map.Entry;
-
 import javax.swing.table.DefaultTableModel;
-
+import tetris.utilities.JsonHandler;
 import tetris.utilities.HTTPUtilities;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class HighScoresModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private ArrayList<Entry<String,Long>> scores;
+    private String getURL = "http://steves-tetris.herokuapp.com/sprint/scores";
 
     public HighScoresModel() {
-        scores = new ArrayList<Entry<String,Long>>();
-        // Below is how we will get the scores JSON
-        // HTTPUtilities.jsonArrayGetRequest("http://steves-tetris.herokuapp.com/sprint/scores");
+        fetchScoresFromMongoDB();
+    }
+
+    public void fetchScoresFromMongoDB() {
+        this.scores = new ArrayList<Entry<String,Long>>();
+        HTTPUtilities.jsonArrayGetRequest(getURL, new JsonHandler() {
+            @Override
+            public void handleJsonArray(JsonArray scoresJson) {
+                for (JsonElement elem : scoresJson) {
+                    JsonObject obj = elem.getAsJsonObject();
+                    String name = obj.get("name").getAsString();
+                    long time = obj.get("time").getAsLong();
+                    HighScoresModel.this.addScore(name, time);
+                }
+                pcs.firePropertyChange("scores", null, null);
+            }
+        });
     }
 
     @SuppressWarnings("serial")
@@ -63,7 +81,6 @@ public class HighScoresModel {
 
     public void addScore(String name, long time) {
         scores.add(createScore(name, time));
-        pcs.firePropertyChange("scores", null, null);
     }
 
     private SimpleEntry<String,Long> createScore(String name, long time) {
