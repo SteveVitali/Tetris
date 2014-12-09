@@ -1,0 +1,12 @@
+
+public enum Action {
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    HOLD,
+    HARD_DROP,
+    SOFT_DROP,
+    ROTATE_CLOCKWISE,
+    ROTATE_COUNTER_CLOCKWISE,
+    LOCK_MINO,
+    TOGGLE_PAUSE
+};
