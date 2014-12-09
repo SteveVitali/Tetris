@@ -16,7 +16,7 @@ public class GameElementPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(100, 100, 100, 128));
+        g.setColor(new Color(160, 160, 160, 128));
         g.fillRoundRect(0,0,this.getWidth(),this.getHeight(), 10, 10);
     }
 }

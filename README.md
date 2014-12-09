@@ -121,18 +121,18 @@
 ## Tetris Enums
 - `Action`
   - This enumeration contains the following values:
-    `MOVE_LEFT, MOVE_RIGHT, HOLD, HARD_DROP, SOFT_DROP, ROTATE_CLOCKWISE,`
-    `ROTATE_COUNTER_CLOCKWISE, LOCK_MINO, TOGGLE_PAUSE.`
+    `MOVE_LEFT`, `MOVE_RIGHT`, `HOLD`, `HARD_DROP`, `SOFT_DROP`,
+    `ROTATE_CLOCKWISE`,`ROTATE_COUNTER_CLOCKWISE`, `LOCK_MINO`, `TOGGLE_PAUSE.`
   - This enum is useful because it lets us store pending actions in the model,
     which the controller can execute on each frame update.
 - `GameStatus`
   - The `TetrisModel` has a game status variable that can take on the
     following values:
-    `BEFORE_GAME, PLAYING, PAUSED, GAME_OVER, AFTER_GAME.`
+    `BEFORE_GAME`, `PLAYING`, `PAUSED`, `GAME_OVER`, `AFTER_GAME`.
   - This is useful because various views can listen for changes to the
     game status value of the `TetrisModel` and update appropriately.
 
-# Game Stats and High Scores
+## Game Stats and High Scores
 - `GameStatisticsView`
   - When the `AppController` is notified that the `TetrisModel` has status
     `GAME_OVER`, or when the game is aborted, it closes the tetris game and

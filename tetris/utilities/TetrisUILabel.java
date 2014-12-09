@@ -10,7 +10,7 @@ public class TetrisUILabel extends JLabel {
     public TetrisUILabel(String text) {
         super(text);
         this.setFont(new Font("Helvetica", Font.PLAIN, 14));
-        this.setForeground(Color.white);
+        this.setForeground(Color.black);
     }
 
     @Override

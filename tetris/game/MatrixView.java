@@ -31,9 +31,9 @@ public class MatrixView extends JPanel {
             for (int x=0; x<model.getWidth(); x++) {
                 // Draw background tile
                 if ((x+y) % 2 == 0) {
-                    g.setColor(new Color(40,40,40,128));
+                    g.setColor(new Color(140,140,140,128));
                 } else {
-                    g.setColor(new Color(50,50,50,128));
+                    g.setColor(new Color(150,150,150,128));
                 }
                 g.fillRoundRect(x*UNIT, y*UNIT, UNIT+1, UNIT+1, 4, 4);
 

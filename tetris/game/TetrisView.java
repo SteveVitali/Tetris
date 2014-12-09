@@ -2,7 +2,6 @@ package tetris.game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -40,16 +39,20 @@ public class TetrisView extends TetrisUIPanel {
         this.minoCountPanel = new MinoCountPanel();
 
         JPanel west = new JPanel();
-        west.setLayout(new FlowLayout());
         west.setPreferredSize(new Dimension(100, 512));
         west.setOpaque(false);
         west.add(hold);
         west.add(timer);
         west.add(minoCountPanel);
 
+        JPanel east = new JPanel();
+        east.setPreferredSize(new Dimension(100, 512));
+        east.setOpaque(false);
+        east.add(queue);
+
         add(west  , BorderLayout.WEST);
         add(matrix, BorderLayout.CENTER);
-        add(queue , BorderLayout.EAST);
+        add(east , BorderLayout.EAST);
 
         addKeyListener(new KeyHandler());
         setFocusable(true);

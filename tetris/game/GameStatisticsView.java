@@ -41,7 +41,7 @@ public class GameStatisticsView extends TetrisUIPanel {
 
         timeLabel = new JLabel();
         timeLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        timeLabel.setForeground(Color.white);
+        timeLabel.setForeground(Color.black);
 
         TetrisUIPanel statsTable= new TetrisUIPanel();
         TetrisUIPanel statsContainer = new TetrisUIPanel();
@@ -154,9 +154,9 @@ public class GameStatisticsView extends TetrisUIPanel {
             setValue(value);
 
             Border in = BorderFactory.createEmptyBorder(4, 8, 4, 8);
-            Border out = BorderFactory.createLineBorder(new Color(54,54,54));
+            Border out = BorderFactory.createLineBorder(new Color(206,206,206));
             setBorder(BorderFactory.createCompoundBorder(out, in));
-            setBackground(new Color(36,36,36));
+            setBackground(new Color(236,236,236));
         }
 
         public void setKey(String key) {

@@ -11,10 +11,10 @@ import javax.swing.JPanel;
 
 public class AppController {
 
-    public static Color BG_COLOR = new Color(26,26,26);
+    public static Color BG_COLOR = new Color(247,247,247);
 
-    public final int WIDTH = 700;
-    public final int HEIGHT= 600;
+    public final int WIDTH = 740;
+    public final int HEIGHT= 540;
 
     private JFrame mainFrame;
     private NavigationBar navigation;

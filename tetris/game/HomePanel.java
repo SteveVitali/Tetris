@@ -23,7 +23,7 @@ public class HomePanel extends TetrisUIPanel {
                 playGame();
             }
         });
-
+        playButton.setFocusable(false);
         add(playButton);
     }
 

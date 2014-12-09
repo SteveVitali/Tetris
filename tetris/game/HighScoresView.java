@@ -54,11 +54,11 @@ public class HighScoresView extends TetrisUIPanel {
 
         public ScoresTableCellRenderer() {
             setOpaque(true);
-            setForeground(Color.white);
-            setBackground(new Color(36,36,36));
+            setForeground(Color.black);
+            setBackground(new Color(236,236,236));
             setFont(new Font("Helvetica", Font.PLAIN, 14));
             EmptyBorder borderPad = new EmptyBorder(new Insets(1,4,1,4));
-            Border actualBorder = BorderFactory.createLineBorder(new Color(54,54,54),1);
+            Border actualBorder = BorderFactory.createLineBorder(new Color(206,206,206),1);
             setBorder(new CompoundBorder(actualBorder, borderPad));
         }
         public Component getTableCellRendererComponent(

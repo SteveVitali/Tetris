@@ -11,7 +11,7 @@ public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final long MINO_LOCK_DELAY = 1000;
-    public final int LINES_PER_GAME = 40;
+    public final int LINES_PER_GAME = 1;
 
     private GameStatus status;
     private MinoType holdMino;
