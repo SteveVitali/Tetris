@@ -196,3 +196,6 @@
   - It contains the following values for naming the different colors
     of the components of the application: `APP_BACKGROUND`, `TEXT_COLOR`,
     `DARK_ACCENT`, `LIGHT_ACCENT`, `MATRIX_DARK`, `MATRIX_LIGHT`.
+
+### To run from command line, execute this command:
+`javac -classpath :lib/slf4j-api-1.7.7.jar:lib/slf4j-simple-1.7.7.jar:lib/commons-logging-1.1.3.jar:lib/gson-2.3.1.jar:lib/async-http-client-1.9.0.jar:lib/httpclient-4.3.6.jar:lib/httpcore-4.3.3.jar:lib/log4j-1.2.17.jar *.java && java -classpath :lib/slf4j-api-1.7.7.jar:lib/slf4j-simple-1.7.7.jar:lib/commons-logging-1.1.3.jar:lib/gson-2.3.1.jar:lib/async-http-client-1.9.0.jar:lib/httpclient-4.3.6.jar:lib/httpcore-4.3.3.jar:lib/log4j-1.2.17.jar Game`
