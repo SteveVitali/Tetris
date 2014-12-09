@@ -16,11 +16,6 @@
     with the `HighScoresModel` to post the score to the database, and then
     display the `HighScoresView`, which gets its data from `HighScoresModel`;
     and so on and so forth.
-- `NavigationBar`
-  - This class contains the navigation bar. It communicates with the
-    `AppController` to act on the events that occur, and the
-    `AppController` also communicates with it to keep its buttons in the
-    appropriate state.
 - `HomePanel`
   - This is the panel that the `AppController` displays when the application
     starts up. All it has is a play button at the time of this writing. in the
@@ -36,6 +31,16 @@
 - `HelpWindow`
   - The `HelpWindow` is a `JFXPanel` that contains game instructions in HTML
     format. The HTML and CSS are located in the `/help` directory.
+
+## Navigation Bars
+- `NavigationBarUpper`
+  - This class extends `JMenuBar` and is used for the upper navigation bar.
+    It communicates with the`AppController` to act on the events that occur,
+    and the `AppController` also communicates with it to keep its buttons in
+    the appropriate state.
+- `NavigationBarLower`
+  - This is another `JMenuBar`, except it sits on the bottom of the screen and
+    contains buttons that can toggle volume and the light/dark theme.
 
 ## Tetris Game Classes
 - `TetrisController`
@@ -180,3 +185,14 @@
     styling/configuration code every time I make a new component, and 2) so
     that the application has a unified style that, if I ever wanted to change,
     I easily could by modifying these classes.
+
+- `ColorPalettes`
+  - This is just a utility class that contains static methods for getting a
+    color palette associated with a given theme.
+
+- `ColorRole`
+  - This is an enum that we use as the "key" component in the key/value pairs
+    for colors in a given color palette.
+  - It contains the following values for naming the different colors
+    of the components of the application: `APP_BACKGROUND`, `TEXT_COLOR`,
+    `DARK_ACCENT`, `LIGHT_ACCENT`, `MATRIX_DARK`, `MATRIX_LIGHT`.

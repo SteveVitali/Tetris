@@ -21,7 +21,7 @@ public class GameElementPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(160, 160, 160, 128));
+        g.setColor(app.colorOf(ColorRole.DARK_ACCENT));
         g.fillRoundRect(0,0,this.getWidth(),this.getHeight(), 10, 10);
     }
 }

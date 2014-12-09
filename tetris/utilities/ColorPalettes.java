@@ -17,10 +17,10 @@ public class ColorPalettes {
 
     public static HashMap<ColorRole,Color> getDarkPalette() {
         HashMap<ColorRole,Color> palette = new HashMap<ColorRole,Color>();
-        palette.put(ColorRole.APP_BACKGROUND, new Color(36,36,36));
+        palette.put(ColorRole.APP_BACKGROUND, new Color(24,24,24));
         palette.put(ColorRole.TEXT_COLOR, Color.white);
-        palette.put(ColorRole.LIGHT_ACCENT, new Color(86,86,86));
-        palette.put(ColorRole.DARK_ACCENT, new Color(56,56,56));
+        palette.put(ColorRole.LIGHT_ACCENT, new Color(32,32,32));
+        palette.put(ColorRole.DARK_ACCENT, new Color(48,48,48));
         palette.put(ColorRole.MATRIX_DARK, new Color(40,40,40,128));
         palette.put(ColorRole.MATRIX_LIGHT, new Color(50,50,50,128));
         return palette;
