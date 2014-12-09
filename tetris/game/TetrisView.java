@@ -46,6 +46,7 @@ public class TetrisView extends TetrisUIPanel {
         west.add(hold);
         west.add(timer);
         west.add(minoCountPanel);
+
         add(west  , BorderLayout.WEST);
         add(matrix, BorderLayout.CENTER);
         add(queue , BorderLayout.EAST);

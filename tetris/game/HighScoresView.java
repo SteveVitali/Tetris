@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -14,7 +13,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
-
 import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
@@ -43,10 +41,9 @@ public class HighScoresView extends TetrisUIPanel {
         scoresTable.setShowGrid(false);
 
         JScrollPane scrollPane = new JScrollPane(scoresTable);
-        scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(false);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
         add(scrollPane);
     }
     public void refreshTable() {

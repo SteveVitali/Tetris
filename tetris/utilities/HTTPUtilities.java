@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -10,6 +11,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.ning.http.client.AsyncCompletionHandler;
@@ -20,6 +24,7 @@ public class HTTPUtilities {
 
     @SuppressWarnings("resource")
     public static void jsonArrayAsyncGetRequest(String url, JsonHandler handler) {
+        disableLogging();
         (new AsyncHttpClient())
         .prepareGet(url)
         .execute(new AsyncCompletionHandler<Response>(){
@@ -72,5 +77,17 @@ public class HTTPUtilities {
             e.printStackTrace();
         }
         return "";
+    }
+
+    // We don't want to use Log4j, but somehow it's built into AsyncHttpRequest
+    // so we use this helper method to keep it from logging meaningless errors
+    // Source: http://stackoverflow.com/questions/571960/disabling-log4j-output-in-java
+    private static void disableLogging() {
+        @SuppressWarnings("unchecked")
+        List<Logger> loggers = Collections.<Logger>list(LogManager.getCurrentLoggers());
+        loggers.add(LogManager.getRootLogger());
+        for ( Logger logger : loggers ) {
+            logger.setLevel(Level.OFF);
+        }
     }
 }

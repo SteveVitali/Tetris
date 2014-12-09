@@ -8,14 +8,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
-
 import javax.swing.table.DefaultTableModel;
-
 import org.apache.http.message.BasicNameValuePair;
-
 import tetris.utilities.JsonHandler;
 import tetris.utilities.HTTPUtilities;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -112,7 +108,6 @@ public class HighScoresModel {
     }
 
     public void addScore(String name, long time) {
-        System.out.println("Adding score: ("+name+","+time+")");
         scores.add(createScore(name, time));
     }
 

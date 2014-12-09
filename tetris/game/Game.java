@@ -6,6 +6,7 @@ public class Game implements Runnable {
     public void run() {
         final JFrame frame = new JFrame("Tetris");
 
+        // Instantiate tetris application
         new AppController(frame);
 
         frame.pack();
