@@ -3,12 +3,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.JPanel;
+import tetris.utilities.ColorRole;
 import tetris.utilities.TetrisUIButton;
-import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
-public class HomePanel extends TetrisUIPanel {
+public class HomePanel extends JPanel {
 
     private AppController app;
     private TetrisUIButton playButton;
@@ -33,6 +33,7 @@ public class HomePanel extends TetrisUIPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        setBackground(app.colorOf(ColorRole.APP_BACKGROUND));
         super.paintComponent(g);
     }
 

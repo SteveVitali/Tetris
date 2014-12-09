@@ -1,9 +1,8 @@
 package tetris.game;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-
+import tetris.utilities.ColorRole;
 import tetris.utilities.GameElementPanel;
 
 @SuppressWarnings("serial")
@@ -13,9 +12,12 @@ public class TimerView extends GameElementPanel {
     private int HEIGHT = 38;
     private TimerModel model;
 
-    public TimerView() {}
+    public TimerView(AppController a) {
+        super(a);
+    }
 
-    public TimerView(TimerModel m) {
+    public TimerView(AppController a, TimerModel m) {
+        super(a);
         setModel(m);
         this.setOpaque(false);
     }
@@ -27,7 +29,7 @@ public class TimerView extends GameElementPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.black);
+        g.setColor(app.colorOf(ColorRole.TEXT_COLOR));
         g.setFont(new Font("Helvetica", Font.PLAIN, 18));
         g.drawString(model.getTimeString(), 8, 24);
     }

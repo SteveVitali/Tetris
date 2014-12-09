@@ -1,6 +1,5 @@
 package tetris.game;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,15 +7,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import tetris.utilities.ColorRole;
 import tetris.utilities.GameElementPanel;
-import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
-public class TetrisView extends TetrisUIPanel {
+public class TetrisView extends JPanel {
 
     private AppController app;
     private TetrisModel model;
@@ -31,10 +28,10 @@ public class TetrisView extends TetrisUIPanel {
     public TetrisView(AppController app) {
         this.app = app;
 
-        this.matrix = new MatrixView();
-        this.queue  = new QueueView ();
-        this.timer  = new TimerView ();
-        this.hold   = new MinoPanel();
+        this.matrix = new MatrixView(app);
+        this.queue  = new QueueView (app);
+        this.timer  = new TimerView (app);
+        this.hold   = new MinoPanel(app);
 
         this.minoCountPanel = new MinoCountPanel();
 
@@ -94,6 +91,7 @@ public class TetrisView extends TetrisUIPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        setBackground(app.colorOf(ColorRole.APP_BACKGROUND));
         super.paintComponent(g);
     }
 
@@ -105,15 +103,16 @@ public class TetrisView extends TetrisUIPanel {
     public class MinoCountPanel extends GameElementPanel {
         JLabel label;
         public MinoCountPanel() {
+            super(TetrisView.this.app);
             label = new JLabel();
             label.setOpaque(false);
-            label.setForeground(Color.black);
             label.setFont(new Font("Helvetica", Font.PLAIN, 18));
             add(label);
         }
 
         @Override
         public void paintComponent(Graphics g) {
+            label.setForeground(app.colorOf(ColorRole.TEXT_COLOR));
             label.setText(""+(40 - model.getLinesCleared()));
             super.paintComponent(g);
         }

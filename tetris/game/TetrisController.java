@@ -2,10 +2,10 @@ package tetris.game;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import tetris.utilities.Sound;
 
 public class TetrisController {
 
+    private AppController app;
     private TetrisModel model;
     private TetrisView view;
 
@@ -14,7 +14,8 @@ public class TetrisController {
     public static final int DROP_INTERVAL = 900;
     public static final int TICK_INTERVAL = 30;
 
-    public TetrisController(TetrisView v) {
+    public TetrisController(AppController a, TetrisView v) {
+        this.app = a;
         setView(v);
     }
 
@@ -87,11 +88,11 @@ public class TetrisController {
                 break;
             case HOLD:
                 model.hold();
-                Sound.play("/sounds/hold.wav");
+                app.playSound("/sounds/hold.wav");
                 break;
             case HARD_DROP:
                 model.hardDrop();
-                Sound.play("/sounds/hard_drop.wav");
+                app.playSound("/sounds/hard_drop.wav");
                 break;
             case SOFT_DROP:
                 model.tryMoveY(1);
@@ -111,15 +112,15 @@ public class TetrisController {
             }
             model.checkHitBottom();
             if (rotated) {
-                Sound.play("/sounds/rotate_whoosh.wav");
+                app.playSound("/sounds/rotate_whoosh.wav");
             }
             if (moved) {
                 model.setHasHitWall(false);
-                //Sound.play("/sounds/move-swish.wav");
+                //app.playSound("/sounds/move-swish.wav");
             }
             if (hitWall && !model.getHasHitWall()) {
                 model.setHasHitWall(true);
-                Sound.play("/sounds/hit_wall.wav");
+                app.playSound("/sounds/hit_wall.wav");
             }
         }
         view.repaint();
@@ -130,7 +131,7 @@ public class TetrisController {
     }
 
     public void togglePlayPause() {
-        Sound.play("/sounds/tick.wav");
+        app.playSound("/sounds/tick.wav");
         switch (model.getStatus()) {
             case PLAYING:
                 model.setStatus(GameStatus.PAUSED);

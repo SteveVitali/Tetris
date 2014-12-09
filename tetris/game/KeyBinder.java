@@ -16,8 +16,10 @@ public class KeyBinder {
         bindingMap.put(KeyEvent.VK_SPACE, Action.HARD_DROP);
         bindingMap.put(KeyEvent.VK_DOWN, Action.SOFT_DROP);
         bindingMap.put(KeyEvent.VK_UP, Action.ROTATE_CLOCKWISE);
-        bindingMap.put(KeyEvent.VK_SHIFT, Action.ROTATE_COUNTER_CLOCKWISE);
+        bindingMap.put(KeyEvent.VK_SHIFT, Action.HOLD);
         bindingMap.put(KeyEvent.VK_P, Action.TOGGLE_PAUSE);
+        bindingMap.put(KeyEvent.VK_X, Action.ROTATE_COUNTER_CLOCKWISE);
+        bindingMap.put(KeyEvent.VK_CONTROL, Action.ROTATE_COUNTER_CLOCKWISE);
     }
 
     public void setKeyBinding(int keyCode, Action action) {

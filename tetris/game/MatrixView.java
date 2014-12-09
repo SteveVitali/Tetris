@@ -2,7 +2,10 @@ package tetris.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
+
+import tetris.utilities.ColorRole;
 
 @SuppressWarnings("serial")
 public class MatrixView extends JPanel {
@@ -12,10 +15,14 @@ public class MatrixView extends JPanel {
     private int UNIT  = WIDTH / 10;
 
     private MatrixModel model;
+    private AppController app;
 
-    public MatrixView() {}
+    public MatrixView(AppController a) {
+        this.app = a;
+    }
 
-    public MatrixView(MatrixModel m) {
+    public MatrixView(AppController a, MatrixModel m) {
+        this(a);
         setModel(m);
     }
 
@@ -31,9 +38,9 @@ public class MatrixView extends JPanel {
             for (int x=0; x<model.getWidth(); x++) {
                 // Draw background tile
                 if ((x+y) % 2 == 0) {
-                    g.setColor(new Color(140,140,140,128));
+                    g.setColor(app.colorOf(ColorRole.MATRIX_DARK));
                 } else {
-                    g.setColor(new Color(150,150,150,128));
+                    g.setColor(app.colorOf(ColorRole.MATRIX_LIGHT));
                 }
                 g.fillRoundRect(x*UNIT, y*UNIT, UNIT+1, UNIT+1, 4, 4);
 

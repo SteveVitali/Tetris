@@ -13,10 +13,13 @@ public class HelpWindow extends JFrame {
 
     private final JFXPanel jfxPanel = new JFXPanel();
     private WebEngine webEngine;
+    private AppController app;
 
-    public HelpWindow() {
+    public HelpWindow(AppController a) {
+        this.app = a;
 
         jfxPanel.setPreferredSize(new Dimension(600,600));
+        setSize(jfxPanel.getPreferredSize());
 
         Platform.runLater(new Runnable() {
             @Override
@@ -24,14 +27,16 @@ public class HelpWindow extends JFrame {
                 WebView view = new WebView();
                 webEngine = view.getEngine();
                 jfxPanel.setScene(new Scene(view));
-                URL htmlURL = getClass().getResource("/help/index.html");
+                String instructions = app.isDark()
+                        ? "/help/index-dark.html"
+                        : "/help/index-light.html";
+                URL htmlURL = getClass().getResource(instructions);
                 webEngine.load(htmlURL.toExternalForm());
             }
         });
 
         setVisible(false);
         setTitle("Help");
-        setSize(jfxPanel.getPreferredSize());
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         add(jfxPanel);

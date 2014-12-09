@@ -3,21 +3,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
 import java.text.DecimalFormat;
+
+import tetris.utilities.ColorRole;
 import tetris.utilities.TetrisUILabel;
-import tetris.utilities.TetrisUIPanel;
 
 @SuppressWarnings("serial")
-public class GameStatisticsView extends TetrisUIPanel {
+public class GameStatisticsView extends JPanel {
 
     private TetrisModel model;
     private AppController app;
@@ -35,16 +40,17 @@ public class GameStatisticsView extends TetrisUIPanel {
     private JTextField nameField;
     private JButton submitButton;
     private JButton doneButton;
+    private JPanel statsTable;
+    private JPanel statsContainer;
 
     public GameStatisticsView(AppController a) {
         this.app = a;
 
         timeLabel = new JLabel();
         timeLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        timeLabel.setForeground(Color.black);
 
-        TetrisUIPanel statsTable= new TetrisUIPanel();
-        TetrisUIPanel statsContainer = new TetrisUIPanel();
+        statsTable= new JPanel();
+        statsContainer = new JPanel();
 
         statsTable.setPreferredSize(new Dimension(700, 200));
 
@@ -64,7 +70,8 @@ public class GameStatisticsView extends TetrisUIPanel {
         submitButton = new JButton("Submit Score");
         doneButton = new JButton("Done");
 
-        TetrisUIPanel containerPanel = new TetrisUIPanel();
+        JPanel containerPanel = new JPanel();
+        containerPanel.setOpaque(false);
         containerPanel.setPreferredSize(new Dimension(700,520));
         containerPanel.add(timeLabel);
         containerPanel.add(statsContainer);
@@ -78,7 +85,6 @@ public class GameStatisticsView extends TetrisUIPanel {
                 app.showHome();
             }
         });
-
         add(containerPanel);
     }
 
@@ -138,13 +144,23 @@ public class GameStatisticsView extends TetrisUIPanel {
         repaint();
     }
 
-    private class StatsTableCell extends TetrisUIPanel {
+    @Override
+    public void paintComponent(Graphics g) {
+        Color bgColor = app.colorOf(ColorRole.APP_BACKGROUND);
+        statsContainer.setBackground(bgColor);
+        statsTable.setBackground(bgColor);
+        timeLabel.setForeground(app.colorOf(ColorRole.TEXT_COLOR));
+        this.setBackground(bgColor);
+        super.paintComponent(g);
+    }
+
+    private class StatsTableCell extends JPanel {
         JLabel keyLabel;
         JLabel valueLabel;
 
         public StatsTableCell(String key, String value) {
-            keyLabel = new TetrisUILabel(key);
-            valueLabel = new TetrisUILabel(value);
+            keyLabel = new TetrisUILabel(app, key);
+            valueLabel = new TetrisUILabel(app, value);
 
             setLayout(new BorderLayout());
             add(keyLabel,BorderLayout.WEST);
@@ -152,11 +168,6 @@ public class GameStatisticsView extends TetrisUIPanel {
 
             setKey(key);
             setValue(value);
-
-            Border in = BorderFactory.createEmptyBorder(4, 8, 4, 8);
-            Border out = BorderFactory.createLineBorder(new Color(206,206,206));
-            setBorder(BorderFactory.createCompoundBorder(out, in));
-            setBackground(new Color(236,236,236));
         }
 
         public void setKey(String key) {
@@ -170,6 +181,17 @@ public class GameStatisticsView extends TetrisUIPanel {
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(256, 32);
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            Color darkAccent = app.colorOf(ColorRole.DARK_ACCENT);
+            Color lightAccent= app.colorOf(ColorRole.LIGHT_ACCENT);
+            Border in = BorderFactory.createEmptyBorder(4, 8, 4, 8);
+            Border out = BorderFactory.createLineBorder(darkAccent);
+            setBorder(BorderFactory.createCompoundBorder(out, in));
+            setBackground(lightAccent);
+            super.paintComponent(g);
         }
     }
 }

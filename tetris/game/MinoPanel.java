@@ -12,7 +12,8 @@ public class MinoPanel extends GameElementPanel {
 
     private Mino mino;
 
-    public MinoPanel() {
+    public MinoPanel(AppController c) {
+        super(c);
     }
 
     public void setMino(Mino mino) {

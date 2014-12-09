@@ -8,6 +8,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import tetris.utilities.ColorPalettes;
+import tetris.utilities.ColorRole;
+import tetris.utilities.Sound;
 
 public class AppController {
 
@@ -16,8 +19,12 @@ public class AppController {
     public final int WIDTH = 740;
     public final int HEIGHT= 540;
 
+    private boolean hasSound;
+    private boolean isDark;
+
     private JFrame mainFrame;
-    private NavigationBar navigation;
+    private NavigationBarUpper upperNavigation;
+    private NavigationBarLower lowerNavigation;
     private CardLayout cardsLayout;
     private JPanel cardsPanel;
     private HomePanel home;
@@ -35,6 +42,9 @@ public class AppController {
     public AppController(JFrame mainFrame) {
         this.setMainFrame(mainFrame);
 
+        hasSound= true;
+        isDark  = true;
+
         JPanel parent = new JPanel();
         parent.setLayout(new BorderLayout());
 
@@ -43,25 +53,27 @@ public class AppController {
         cardsPanel.setLayout(cardsLayout);
 
         home = new HomePanel(this);
-        help = new HelpWindow();
+        help = new HelpWindow(this);
         statsView = new GameStatisticsView(this);
 
         gameView  = new TetrisView(this);
-        gameController = new TetrisController(gameView);
+        gameController = new TetrisController(this, gameView);
         initializeNewGame();
 
         scoresModel = new HighScoresModel();
-        scoresView  = new HighScoresView(scoresModel);
+        scoresView  = new HighScoresView(this, scoresModel);
 
         cardsPanel.add(home, "home");
         cardsPanel.add(gameView, "game");
         cardsPanel.add(scoresView, "scoresView");
         cardsPanel.add(statsView, "statsView");
 
-        navigation = new NavigationBar(this);
+        upperNavigation = new NavigationBarUpper(this);
+        lowerNavigation = new NavigationBarLower(this);
 
-        parent.add(navigation, BorderLayout.NORTH);
+        parent.add(upperNavigation, BorderLayout.NORTH);
         parent.add(cardsPanel, BorderLayout.CENTER);
+        parent.add(lowerNavigation, BorderLayout.SOUTH);
         mainFrame.add(parent);
         cardsLayout.show(cardsPanel, "home");
 
@@ -111,7 +123,7 @@ public class AppController {
     }
 
     private void gameStatusChanged(GameStatus status) {
-        navigation.updateButtonStates(status);
+        upperNavigation.updateButtonStates(status);
         switch (status) {
             case AFTER_GAME:
                 showGameStatistics();
@@ -150,7 +162,7 @@ public class AppController {
     public void showHome() {
         gameController.closeGame();
         initializeNewGame();
-        navigation.updateButtonStates(getStatus());
+        upperNavigation.updateButtonStates(getStatus());
         cardsLayout.show(cardsPanel, "home");
     }
 
@@ -164,5 +176,36 @@ public class AppController {
 
     public GameStatus getStatus() {
         return gameModel.getStatus();
+    }
+
+    public void playSound(String soundPath) {
+        if (hasSound) {
+            Sound.play(soundPath);
+        }
+    }
+
+    public void toggleSound() {
+        hasSound = !hasSound;
+    }
+
+    public void toggleLightDark() {
+        isDark = !isDark;
+        mainFrame.repaint();
+    }
+
+    public boolean hasSound() {
+        return hasSound;
+    }
+
+    public boolean isDark() {
+        return isDark;
+    }
+
+    public Color colorOf(ColorRole role) {
+        if (isDark) {
+            return ColorPalettes.getDarkPalette().get(role);
+        } else {
+            return ColorPalettes.getLightPalette().get(role);
+        }
     }
 }

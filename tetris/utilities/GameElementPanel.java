@@ -4,10 +4,15 @@ import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import tetris.game.AppController;
+
 @SuppressWarnings("serial")
 public class GameElementPanel extends JPanel {
 
-    public GameElementPanel() {
+    protected AppController app;
+
+    public GameElementPanel(AppController a) {
+        this.app = a;
         setBackground(null);
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.darkGray));

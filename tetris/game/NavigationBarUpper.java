@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-
 import tetris.utilities.TetrisUIButton;
 
 @SuppressWarnings("serial")
-public class NavigationBar extends JMenuBar {
+public class NavigationBarUpper extends JMenuBar {
 
     private AppController app;
     private TetrisUIButton playButton;
@@ -26,12 +24,11 @@ public class NavigationBar extends JMenuBar {
     private String HELP_PATH = "/images/flat-help.png";
     private String TROPHY_PATH = "/images/flat-trophy.png";
 
-    public NavigationBar(AppController app) {
+    public NavigationBarUpper(AppController app) {
         this.app = app;
 
         setBackground(Color.black);
-
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         JPanel west = new NavPanel();
         JPanel center = new NavPanel();
