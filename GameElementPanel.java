@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 public class GameElementPanel extends JPanel {
 
     protected AppController app;
-
+    // GameElementPanels are used for the mino panels, the timer panel,
+    // the panel that displays lines remaining, and all GameElementLabel's
+    // in the TetrisView.
     public GameElementPanel(AppController a) {
         this.app = a;
         setBackground(null);

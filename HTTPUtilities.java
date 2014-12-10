@@ -22,6 +22,7 @@ import com.ning.http.client.Response;
 
 public class HTTPUtilities {
 
+    // This is a helper function for doing asynchronous JSON GET requests
     @SuppressWarnings("resource")
     public static void jsonArrayAsyncGetRequest(String url, JsonHandler handler) {
         disableLogging();
@@ -49,6 +50,8 @@ public class HTTPUtilities {
         });
     }
 
+    // This is a helper function for doing synchronous JSON POST requests
+    // it returns a string so the caller can check if it was successful
     public static String jsonArrayPostRequest(String url, List<BasicNameValuePair> params) {
         try {
             HttpClient client = HttpClientBuilder.create().build();
@@ -62,6 +65,7 @@ public class HTTPUtilities {
         return "";
     }
 
+    // Concvert response stream into a String
     private static String readResponseContent(InputStream content) {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(content)

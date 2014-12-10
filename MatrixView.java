@@ -1,11 +1,10 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
+// A MatrixView's job is to draw a MatrixModel
 public class MatrixView extends JPanel {
 
     private int WIDTH = 250;

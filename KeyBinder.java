@@ -1,9 +1,9 @@
-
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
+// This class is used to bind keys to actions
 public class KeyBinder {
 
     private HashMap<Integer, Action> bindingMap;

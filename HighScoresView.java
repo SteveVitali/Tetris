@@ -28,6 +28,7 @@ public class HighScoresView extends JPanel {
         this.app = a;
         this.model = m;
 
+        // Listen for changes to model scores to update table appropriately
         model.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent e) {
@@ -51,6 +52,9 @@ public class HighScoresView extends JPanel {
         add(scrollPane);
     }
     public void refreshTable() {
+        // Updating the JTableView's "model" does all the refreshing for us
+        // We use the HighScoresModel's "getTableModel" function to construct
+        // the new table model for us
         scoresTable.setModel(model.getTableModel());
     }
 
@@ -60,6 +64,7 @@ public class HighScoresView extends JPanel {
         super.paintComponent(g);
     }
 
+    // Make the table cells look nice (kind of) using a TableCellRenderer
     class ScoresTableCellRenderer extends JLabel implements TableCellRenderer {
 
         public ScoresTableCellRenderer() {

@@ -21,6 +21,7 @@ public class HelpWindow extends JFrame {
         jfxPanel.setPreferredSize(new Dimension(600,600));
         setSize(jfxPanel.getPreferredSize());
 
+        // Load the help HTML in the JFXPanel
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

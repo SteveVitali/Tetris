@@ -1,4 +1,4 @@
-
+// These are all the actions that the user can perform during a Tetris game
 public enum Action {
     MOVE_LEFT,
     MOVE_RIGHT,

@@ -1,9 +1,10 @@
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
+// The QueueView draws the QueueModel as a bunch of MinoPanel's
+// with the QueueModel's minos in it
 public class QueueView extends JPanel {
 
     private int WIDTH  = 128;

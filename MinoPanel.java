@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 @SuppressWarnings("serial")
+// This is used in the hold queue and the next queue to draw
+// the minos centered inside of GameElementPanels
 public class MinoPanel extends GameElementPanel {
 
     public static int WIDTH = 84;

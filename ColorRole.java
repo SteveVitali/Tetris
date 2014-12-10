@@ -1,5 +1,5 @@
-
-
+// This enum defines the different colors needed in the application's
+// color palette
 public enum ColorRole {
     APP_BACKGROUND,
     TEXT_COLOR,

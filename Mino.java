@@ -5,6 +5,7 @@ import java.awt.Graphics;
 public class Mino {
     private MinoType type;
     protected Color color;
+    // Integer coordinates of the mino inside a matrix
     private int[][] coors;
 
     // Default constructor instantiates random mino type
@@ -65,18 +66,19 @@ public class Mino {
         switch (type) {
         case O:
             return coordinates;
+        // If it's not an O-tetromino, run the rotation algorithm as usual
         default:
             int[][] rotated = new int[4][2];
             int[] origin = coordinates[1];
-            for (int i=0; i<coordinates.length; i++) {
+            for (int i = 0; i< coordinates.length; i++) {
                 int[] coor = coordinates[i];
                 int[] translated = new int[]{
                         coor[0] - origin[0], coor[1] - origin[1]
                 };
                 translated[1] *= clockwise ? 1 : -1;
-                rotated[i] = new int[]{translated[0], translated[1]};
-                rotated[i][0] = (int)Math.round(-1*translated[1]);
-                rotated[i][1] = (int)Math.round(translated[0]);
+                rotated[i] = new int[]{ translated[0], translated[1] };
+                rotated[i][0] = (int) Math.round(-1 * translated[1]);
+                rotated[i][1] = (int) Math.round(translated[0]);
                 rotated[i][1] *= clockwise ? 1 : -1;
                 rotated[i][0] += origin[0];
                 rotated[i][1] += origin[1];
@@ -99,8 +101,8 @@ public class Mino {
         }
     }
 
+    // This is used when we want to center a mino inside a rectangle
     public void drawInRect(Graphics g, int width, int height) {
-        // Lots of math to center the mino in a given rectangle
         int maxX = 0, minX = Integer.MAX_VALUE;
         int maxY = 0, minY = Integer.MAX_VALUE;
         for (int[] coor : coors) {

@@ -1,4 +1,3 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -57,6 +56,7 @@ public class TetrisController {
         switch (model.getStatus()) {
             case PLAYING:
                 model.addTime(TICK_INTERVAL);
+                // If a DROP_INTERVAL has elapsed, soft drop the mino
                 if (model.getTimer().getTime() % DROP_INTERVAL == 0) {
                     softDropCurrentMino();
                 }
@@ -87,6 +87,8 @@ public class TetrisController {
         view.repaint();
     }
 
+    // Key events log actions in the model's pendingActions variable
+    // on every tick, we execute the actions in this method
     private void doActions() {
         Action action;
         boolean hitWall = false;

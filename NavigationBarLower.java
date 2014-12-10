@@ -1,13 +1,12 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 
 @SuppressWarnings("serial")
+// Bottom navigation bar to house sound/theme toggle buttons
 public class NavigationBarLower extends JMenuBar {
 
     private AppController app;
@@ -34,7 +33,6 @@ public class NavigationBarLower extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 app.toggleSound();
                 updateButtonStates();
-                app.playSound("/sounds/hold.wav");
             }
         });
         c.add(soundToggle);
@@ -53,6 +51,7 @@ public class NavigationBarLower extends JMenuBar {
         c.add(lightDarkToggle);
     }
 
+    // Sync button states with application state
     public void updateButtonStates() {
         String soundIcon = app.hasSound()
                 ? SOUND_ON_PATH

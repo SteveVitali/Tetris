@@ -1,10 +1,9 @@
-
 import java.net.URL;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+// Helper class to play sounds
 // Most of this class is copied from: http://noobtuts.com/java/play-sounds
 public class Sound {
     public static synchronized void play(final String fileName)

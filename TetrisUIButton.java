@@ -1,4 +1,3 @@
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
+// Useful class for enforcing consistent button styling across the app
 public class TetrisUIButton extends JButton {
 
     public TetrisUIButton() {

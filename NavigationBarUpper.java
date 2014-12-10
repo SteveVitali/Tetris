@@ -1,14 +1,13 @@
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
+// Navigation bar to house play/pause/abort, high scores, and help buttons
 public class NavigationBarUpper extends JMenuBar {
 
     private AppController app;
@@ -123,6 +122,7 @@ public class NavigationBarUpper extends JMenuBar {
         }
     }
 
+    // Sync button states with some GameStatus
     public void updateButtonStates(GameStatus status) {
         playButton.setEnabled(true);
         switch (status) {
@@ -151,6 +151,7 @@ public class NavigationBarUpper extends JMenuBar {
         }
     }
 
+    // Helper class to help arrange buttons on the nav bar
     private class NavPanel extends JPanel {
         public NavPanel() {
             setOpaque(false);

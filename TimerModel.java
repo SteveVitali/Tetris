@@ -1,5 +1,5 @@
-
-
+// TimerModel contains a time, and a bunch of helper functions for
+// updating the time, converting it to a string, et cetera.
 public class TimerModel {
     private long time;
 

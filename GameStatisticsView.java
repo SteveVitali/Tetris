@@ -27,6 +27,7 @@ public class GameStatisticsView extends JPanel {
     private HashMap<String,StatsTableCell> statsTableCells;
     private long time;
     private JLabel timeLabel;
+    // List of statistics properties for easy iteration over hashmap
     private String[] statProperties = {
             "minos", "minos per minute",
             "lines", "lines per minute",
@@ -46,7 +47,7 @@ public class GameStatisticsView extends JPanel {
         timeLabel = new JLabel();
         timeLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
 
-        statsTable= new JPanel();
+        statsTable = new JPanel();
         statsContainer = new JPanel();
 
         statsTable.setPreferredSize(new Dimension(700, 200));
@@ -54,6 +55,8 @@ public class GameStatisticsView extends JPanel {
         stats = new HashMap<String,String>();
         statsTableCells = new HashMap<String,StatsTableCell>();
 
+        // Add all the "table cells"; initialize them with their 'property'
+        // title but no data
         for (String prop : statProperties) {
             String statTitle = prop.substring(0,1).toUpperCase()+prop.substring(1);
             stats.put(prop, "");
@@ -62,6 +65,7 @@ public class GameStatisticsView extends JPanel {
         }
         statsContainer.add(statsTable);
 
+        // Add score submission components
         nameField = new JTextField(18);
         nameField.setFont(new Font("Helvetica", Font.PLAIN, 14));
         submitButton = new JButton("Submit Score");
@@ -87,6 +91,9 @@ public class GameStatisticsView extends JPanel {
 
     public void setModel(TetrisModel m) {
         this.model = m;
+        // Hook up submit button action listener
+        // The first if is there to make sure the
+        // setModel method is idempotent
         if (submitButton.getActionListeners().length == 0) {
             submitButton.addActionListener(new ActionListener() {
                 @Override
@@ -100,6 +107,8 @@ public class GameStatisticsView extends JPanel {
         }
     }
 
+    // This does all the calculations to populate the "table cells" with
+    // their actual game data; it's called whenever a game has just ended
     public void refreshData() {
         time = model.getFinalTime();
 
@@ -151,6 +160,8 @@ public class GameStatisticsView extends JPanel {
         super.paintComponent(g);
     }
 
+    // This is a helper class for displaying JPanels with key and
+    // value labels on the WEST and EAST sides; used as "table cell"
     private class StatsTableCell extends JPanel {
         JLabel keyLabel;
         JLabel valueLabel;

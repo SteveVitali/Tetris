@@ -10,8 +10,6 @@ import javax.swing.JPanel;
 
 public class AppController {
 
-    public static Color BG_COLOR = new Color(247,247,247);
-
     public final int WIDTH = 740;
     public final int HEIGHT= 540;
 
@@ -44,6 +42,7 @@ public class AppController {
         JPanel parent = new JPanel();
         parent.setLayout(new BorderLayout());
 
+        // The app controller uses a CardLayout to swap between views
         cardsPanel = new JPanel();
         cardsLayout = new CardLayout();
         cardsPanel.setLayout(cardsLayout);
@@ -77,6 +76,8 @@ public class AppController {
         home.requestFocus();
     }
 
+    // We add this focus listener so that when the user adds or removes focus
+    // from the app window, we can pause/start the game appropriately.
     private void addFocusListener() {
         mainFrame.addWindowFocusListener(new WindowFocusListener() {
             @Override
@@ -112,6 +113,8 @@ public class AppController {
         });
     }
 
+    // Re-instantiate the tetris model and hook it up to all the things
+    // that need references to it (a tetris controller, a stats view, etc.)
     public void initializeNewGame() {
         gameModel = new TetrisModel();
         gameModel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -134,6 +137,8 @@ public class AppController {
         gameController.startGame();
     }
 
+    // This is the "callback" for the property change listener who listens
+    // to changes in the game model's status property
     private void gameStatusChanged(GameStatus status) {
         upperNavigation.updateButtonStates(status);
         switch (status) {

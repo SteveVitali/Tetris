@@ -1,7 +1,7 @@
-
 import java.awt.Color;
 import java.util.Random;
 
+// Enumeration of types of Minos
 public enum MinoType {
     I, J, L, S, Z, T, O;
 

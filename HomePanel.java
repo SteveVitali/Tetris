@@ -12,6 +12,7 @@ public class HomePanel extends JPanel {
     private AppController app;
     private TetrisUIButton playButton;
 
+    // This is the "home" screen; it contains just a play button
     public HomePanel(AppController app) {
         this.app = app;
 

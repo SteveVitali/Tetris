@@ -1,10 +1,9 @@
-
 import java.awt.Font;
 import java.awt.Graphics;
-
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
+// Another utility class for enforcing consistent style
 public class TetrisUILabel extends JLabel {
 
     private AppController app;

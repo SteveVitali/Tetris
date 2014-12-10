@@ -6,6 +6,7 @@ public class Ghost extends Mino {
 
     public Ghost(Mino mino) {
         Color c = mino.getColor();
+        // Same color as its parent mino, but more transparent
         this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), 100);
     }
 

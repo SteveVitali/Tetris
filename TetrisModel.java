@@ -1,4 +1,3 @@
-
 import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -7,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+// A TetrisModel contains all of a tetris game's data
 public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -26,9 +26,9 @@ public class TetrisModel {
     private boolean hasHitWall;
     private TimerTask minoLockTask;
 
+    // Variables to keep track of game statistics
     private int linesCleared;
     private int minoCount;
-
     HashMap<Integer,Integer> lineClearMap;
     HashMap<Integer,Integer> consecutiveTetrisesMap;
     private int consecutiveTetrises;
@@ -67,6 +67,8 @@ public class TetrisModel {
         return timer;
     }
 
+    // When a key is pressed, check if it's bound to any actions, and if it
+    // is, depending on the game state, add that action to the pending actions
     public void setKeyPressed(int keyCode) {
         if (keyBindings.hasBinding(keyCode)) {
             switch (status) {
@@ -136,6 +138,9 @@ public class TetrisModel {
     }
 
     public void beginMinoLockDelay() {
+        // If the delay hasn't already begun, begin the delay
+        // After a time of MINO_LOCK_DELAY has elapsed, if the user has not
+        // translated or rotated the mino, it will get locked into the matrix
         if (minoLockTask == null) {
             minoLockTask = new TimerTask() {
                 @Override
@@ -162,9 +167,11 @@ public class TetrisModel {
     public void lockMinoIntoMatrix() {
         boolean success = matrix.lockMinoIntoMatrix();
         if (success) {
+            // Update current mino
             matrix.setCurrentMino(nextQueue.popMino());
             resetMinoLockDelay();
 
+            // Update game statistics
             int numCleared = matrix.clearLines();
             if (numCleared > 0) {
                 incrementLineClearsOfSize(numCleared);
@@ -178,25 +185,36 @@ public class TetrisModel {
             canHold = true;
             minoCount++;
             linesCleared += numCleared;
+            // Check if game is win
             if (linesCleared >= LINES_PER_GAME) {
                 setStatus(GameStatus.GAME_OVER);
             }
         } else {
+            // Failed lock means user has overflows the matrix
             setStatus(GameStatus.GAME_OVER);
         }
     }
 
     public void hold() {
+        // Update hold mino
+        // canHold is true if the user has not already tried to hold
+        // the current mino
         if (canHold) {
             Mino current = matrix.getCurrentMino();
+            // If there's no hold mino, store current mino in hold and
+            // set next mino in queue as current mino
             if (holdMino == null) {
                 holdMino = current.getType();
                 matrix.setCurrentMino(nextQueue.popMino());
-            } else {
+            }
+            // If there is a hold mino, have the current mino
+            // and it swap places
+            else {
                 MinoType newMinoType = holdMino;
                 holdMino = current.getType();
                 matrix.setCurrentMino(new Mino(newMinoType));
             }
+            // set canHold to false because you can't hold twice in one "turn"
             canHold = false;
             pcs.firePropertyChange("holdMino", null, holdMino);
             resetMinoLockDelay();
@@ -321,6 +339,7 @@ public class TetrisModel {
         countDownTime = time;
     }
 
+    // Convert long time to an integer time for countdown timer to display
     public int getCountDownTimeInt() {
         return (int) Math.ceil((double) countDownTime/1000);
     }

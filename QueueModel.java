@@ -1,9 +1,9 @@
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+// Model for the queue of incoming minos; used inside a TetrisModel
 public class QueueModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

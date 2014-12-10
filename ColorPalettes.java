@@ -1,9 +1,9 @@
-
 import java.awt.Color;
 import java.util.HashMap;
 
 public class ColorPalettes {
-
+    // This is where we get the light and dark color schemes for the
+    // application when the "light/dark" toggle is clicked
     public static HashMap<ColorRole,Color> getLightPalette() {
         HashMap<ColorRole,Color> palette = new HashMap<ColorRole,Color>();
         palette.put(ColorRole.APP_BACKGROUND, new Color(247,247,247));

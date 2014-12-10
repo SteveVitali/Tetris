@@ -1,15 +1,16 @@
-
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+// The MatrixModel contains all the data associated with the tetris matrix
 public class MatrixModel {
 
     private int width  = 10;
     private int height = 20;
 
+    // colors is an array holding the color of each block in the matrix
     private Color[][] colors;
     private Mino currentMino;
     private Ghost ghost;
@@ -31,6 +32,8 @@ public class MatrixModel {
         constructValidShifts();
     }
 
+    // See "findClosestValidMinoPlacement(int[][] coors)" for why
+    // this is useful.
     public void constructValidShifts() {
         this.validShifts = new ArrayList<Point>();
         for (int i = -2; i <= 2; i++) {
@@ -104,6 +107,7 @@ public class MatrixModel {
         }
     }
 
+    // Return true if mino was successfully locked into the matrix
     public boolean lockMinoIntoMatrix() {
         boolean success = true;
         try {
@@ -152,6 +156,8 @@ public class MatrixModel {
         this.colors = newColors;
     }
 
+    // Helper function used in removeRows that returns the number of values
+    // in an ArrayList of integers that are greater than some comparison int
     private int numValuesGreaterThan(ArrayList<Integer> values, int compare) {
         int numValuesGreaterThan = 0;
         for (int value : values) {
