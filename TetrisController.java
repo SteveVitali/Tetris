@@ -29,8 +29,10 @@ public class TetrisController {
     }
 
     public void startGame() {
-        model.setStatus(GameStatus.PLAYING);
+        model.setCountDownTime(model.COUNTDOWN_LENGTH);
+        model.setStatus(GameStatus.COUNT_DOWN);
         model.setTime(0);
+        app.playSound("/sounds/count_down.wav");
 
         tickTimer = new Timer(TICK_INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -59,16 +61,30 @@ public class TetrisController {
                     softDropCurrentMino();
                 }
                 break;
+            case COUNT_DOWN:
+                int oldTimeInt = model.getCountDownTimeInt();
+                long newTime   = model.getCountDownTime() - TICK_INTERVAL;
+                model.setCountDownTime(newTime);
+                if (oldTimeInt != model.getCountDownTimeInt()) {
+                    app.playSound("/sounds/count_down.wav");
+                }
+                if (newTime <= 0) {
+                    model.setStatus(GameStatus.PLAYING);
+                }
+                break;
             case GAME_OVER:
                 endGame();
                 break;
             case PAUSED:
+                break;
+            case COUNT_DOWN_PAUSED:
                 break;
             case BEFORE_GAME:
                 break;
             case AFTER_GAME:
                 break;
         }
+        view.repaint();
     }
 
     private void doActions() {
@@ -123,7 +139,6 @@ public class TetrisController {
                 app.playSound("/sounds/hit_wall.wav");
             }
         }
-        view.repaint();
     }
 
     private void softDropCurrentMino() {
@@ -131,8 +146,14 @@ public class TetrisController {
     }
 
     public void togglePlayPause() {
-        app.playSound("/sounds/tick.wav");
+        System.out.println("status:"+model.getStatus());
         switch (model.getStatus()) {
+            case COUNT_DOWN:
+                model.setStatus(GameStatus.COUNT_DOWN_PAUSED);
+                break;
+            case COUNT_DOWN_PAUSED:
+                model.setStatus(GameStatus.COUNT_DOWN);
+                break;
             case PLAYING:
                 model.setStatus(GameStatus.PAUSED);
                 break;

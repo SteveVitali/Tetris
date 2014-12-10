@@ -10,8 +10,10 @@ import java.util.TimerTask;
 public class TetrisModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private final long MINO_LOCK_DELAY = 1000;
+    public final long MINO_LOCK_DELAY = 1000;
     public final int LINES_PER_GAME = 40;
+    public final int COUNTDOWN_LENGTH = 3000;
+    private long countDownTime;
 
     private GameStatus status;
     private MinoType holdMino;
@@ -49,6 +51,7 @@ public class TetrisModel {
         consecutiveTetrises = 0;
         lineClearMap = new HashMap<Integer,Integer>();
         consecutiveTetrisesMap = new HashMap<Integer,Integer>();
+        countDownTime = 0;
         setStatus(GameStatus.BEFORE_GAME);
     }
 
@@ -308,5 +311,17 @@ public class TetrisModel {
 
     public void setHasHitWall(boolean hasHitWall) {
         this.hasHitWall = hasHitWall;
+    }
+
+    public long getCountDownTime() {
+        return countDownTime;
+    }
+
+    public void setCountDownTime(long time) {
+        countDownTime = time;
+    }
+
+    public int getCountDownTimeInt() {
+        return (int) Math.ceil((double) countDownTime/1000);
     }
 }

@@ -81,16 +81,32 @@ public class AppController {
         mainFrame.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
-                if (gameModel != null &&
-                    gameModel.getStatus() == GameStatus.PAUSED) {
-                    gameModel.setStatus(GameStatus.PLAYING);
+                if (gameModel != null) {
+                    switch (gameModel.getStatus()) {
+                        case PAUSED:
+                            gameModel.setStatus(GameStatus.PLAYING);
+                            break;
+                        case COUNT_DOWN_PAUSED:
+                            gameModel.setStatus(GameStatus.COUNT_DOWN);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             @Override
             public void windowLostFocus(WindowEvent e) {
-                if (gameModel != null &&
-                    gameModel.getStatus() == GameStatus.PLAYING) {
-                    gameModel.setStatus(GameStatus.PAUSED);
+                if (gameModel != null) {
+                    switch (gameModel.getStatus()) {
+                        case PLAYING:
+                            gameModel.setStatus(GameStatus.PAUSED);
+                            break;
+                        case COUNT_DOWN:
+                            gameModel.setStatus(GameStatus.COUNT_DOWN_PAUSED);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         });
@@ -130,6 +146,7 @@ public class AppController {
     }
 
     public void togglePlayPause() {
+        playSound("/sounds/hold.wav");
         gameController.togglePlayPause();
         gameView.requestFocus();
     }

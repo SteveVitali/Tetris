@@ -20,6 +20,7 @@ public class HomePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playGame();
+                app.playSound("/sounds/hold.wav");
             }
         });
         playButton.setFocusable(false);

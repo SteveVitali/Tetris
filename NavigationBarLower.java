@@ -34,6 +34,7 @@ public class NavigationBarLower extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 app.toggleSound();
                 updateButtonStates();
+                app.playSound("/sounds/hold.wav");
             }
         });
         c.add(soundToggle);
@@ -46,6 +47,7 @@ public class NavigationBarLower extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 app.toggleLightDark();
                 updateButtonStates();
+                app.playSound("/sounds/hold.wav");
             }
         });
         c.add(lightDarkToggle);

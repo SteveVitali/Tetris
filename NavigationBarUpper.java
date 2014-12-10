@@ -54,6 +54,7 @@ public class NavigationBarUpper extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playPauseButtonClicked();
+                app.playSound("/sounds/hold.wav");
             }
         });
 
@@ -67,6 +68,7 @@ public class NavigationBarUpper extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.showHome();
+                app.playSound("/sounds/hold.wav");
             }
         });
         panel.add(abortButton);
@@ -79,6 +81,7 @@ public class NavigationBarUpper extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.showHighScores();
+                app.playSound("/sounds/hold.wav");
             }
         });
         panel.add(highScoresButton);
@@ -97,6 +100,7 @@ public class NavigationBarUpper extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 app.showHelp();
+                app.playSound("/sounds/hold.wav");
             }
         });
         panel.add(helpButton);
@@ -110,6 +114,8 @@ public class NavigationBarUpper extends JMenuBar {
                 break;
             case PLAYING:
             case PAUSED:
+            case COUNT_DOWN:
+            case COUNT_DOWN_PAUSED:
                 app.togglePlayPause();
                 break;
             default:
@@ -121,14 +127,14 @@ public class NavigationBarUpper extends JMenuBar {
         playButton.setEnabled(true);
         switch (status) {
             case PLAYING:
-                //playButton.setText("Pause");
+            case COUNT_DOWN:
                 playButton.setIcon(PAUSE_PATH);
                 highScoresButton.setEnabled(false);
                 connectButton.setEnabled(false);
                 abortButton.setVisible(true);
                 break;
             case PAUSED:
-                //playButton.setText("Play");
+            case COUNT_DOWN_PAUSED:
                 playButton.setIcon(PLAY_PATH);
                 highScoresButton.setEnabled(false);
                 connectButton.setEnabled(false);
@@ -136,7 +142,6 @@ public class NavigationBarUpper extends JMenuBar {
                 break;
             case AFTER_GAME:
             case BEFORE_GAME:
-                //playButton.setText("Play");
                 playButton.setIcon(PLAY_PATH);
                 highScoresButton.setEnabled(true);
                 connectButton.setEnabled(true);

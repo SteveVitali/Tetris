@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -7,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -103,6 +101,23 @@ public class TetrisView extends JPanel {
     public void paintComponent(Graphics g) {
         setBackground(app.colorOf(ColorRole.APP_BACKGROUND));
         super.paintComponent(g);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+       super.paint(g);
+       // We override paint so the countdown appears above the matrix view
+       switch (model.getStatus()) {
+           case COUNT_DOWN:
+           case COUNT_DOWN_PAUSED:
+               int time = model.getCountDownTimeInt();
+               g.setColor(app.colorOf(ColorRole.TEXT_COLOR));
+               g.setFont(new Font("Helvetica", Font.PLAIN, 24));
+               g.drawString(""+time, getWidth()/2-6, getHeight()/3);
+               break;
+           default:
+               break;
+       }
     }
 
     @Override
