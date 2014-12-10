@@ -5,8 +5,8 @@ import java.awt.Graphics;
 @SuppressWarnings("serial")
 public class MinoPanel extends GameElementPanel {
 
-    int WIDTH = 84;
-    int UNIT  = 16;
+    public static int WIDTH = 84;
+    public static int UNIT  = 16;
 
     private Mino mino;
 

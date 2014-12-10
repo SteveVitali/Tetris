@@ -22,7 +22,7 @@ public class TetrisView extends JPanel {
     private QueueView queue;
     private TimerView timer;
     private MinoPanel hold;
-    private MinoCountPanel minoCountPanel;
+    private LineCountPanel lineCount;
 
     public TetrisView(AppController app) {
         this.app = app;
@@ -32,18 +32,29 @@ public class TetrisView extends JPanel {
         this.timer  = new TimerView (app);
         this.hold   = new MinoPanel(app);
 
-        this.minoCountPanel = new MinoCountPanel();
+        this.lineCount = new LineCountPanel();
+
+        GameElementLabel timerLabel = new GameElementLabel(app, timer, "Time");
+        GameElementLabel holdLabel  = new GameElementLabel(app, hold, "Hold");
+        GameElementLabel nextLabel  = new GameElementLabel(app, hold, "Next");
+        GameElementPanel linesLabel = new GameElementLabel(app, lineCount, "Lines");
 
         JPanel west = new JPanel();
         west.setPreferredSize(new Dimension(100, 512));
         west.setOpaque(false);
+        west.add(holdLabel);
         west.add(hold);
+        west.add(new SpacerPanel(MinoPanel.WIDTH, 12));
+        west.add(timerLabel);
         west.add(timer);
-        west.add(minoCountPanel);
+        west.add(new SpacerPanel(MinoPanel.WIDTH, 12));
+        west.add(linesLabel);
+        west.add(lineCount);
 
         JPanel east = new JPanel();
         east.setPreferredSize(new Dimension(100, 512));
         east.setOpaque(false);
+        east.add(nextLabel);
         east.add(queue);
 
         add(west  , BorderLayout.WEST);
@@ -99,9 +110,9 @@ public class TetrisView extends JPanel {
         return new Dimension(app.WIDTH, app.HEIGHT);
     }
 
-    public class MinoCountPanel extends GameElementPanel {
+    private class LineCountPanel extends GameElementPanel {
         JLabel label;
-        public MinoCountPanel() {
+        public LineCountPanel() {
             super(TetrisView.this.app);
             label = new JLabel();
             label.setOpaque(false);
@@ -119,6 +130,13 @@ public class TetrisView extends JPanel {
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(84, 30);
+        }
+    }
+
+    private class SpacerPanel extends JPanel {
+        public SpacerPanel(int width, int height) {
+            setOpaque(false);
+            setPreferredSize(new Dimension(width, height));
         }
     }
 
