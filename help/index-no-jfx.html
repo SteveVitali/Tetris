@@ -1,11 +1,12 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="bootstrap-light.min.css">
+<html><head>
+  <link rel="stylesheet" href="bootstrap-dark.min.css">
 </head>
 <body>
     <div class="container">
+         <h3>Note:</h3>Before this was styled really nicely with Bootstrap/etc.
+         inside a JFXPanel with a WebView. But the linux machines won't work
+         with JavaFX, and I don't have any time to fix it before the submission
+         deadline, so this is my instructions page now.
          <h3>Tetris Sprint</h3>
          <div class="panel panel-default">
              <div class="panel-body">
@@ -18,6 +19,16 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table table-striped table-bordered" id="controls-table">
+                <tbody>
+                <tr><td>Left</td><td>Move left</td></tr>
+                <tr><td>Right</td><td>Move right</td></tr>
+                <tr><td>Down</td><td>Soft drop</td></tr>
+                <tr><td>Space</td><td>Hard drop</td></tr>
+                <tr><td>Up</td><td>Rotate Clockwise</td>
+                </tr><tr><td>X/Control</td><td>Rotate counter-clockwise</td></tr>
+                <tr><td>C/Shift</td><td>Hold</td></tr>
+                <tr><td>P</td><td>Pause</td></tr>
+                </tbody>
                 </table>
             </div>
         </div>
@@ -67,24 +78,5 @@
              </div>
          </div>
     </div>
-
-    <script>
-        var bindings = {
-            'Left': 'Move left',
-            'Right': 'Move right',
-            'Down': 'Soft drop',
-            'Space': 'Hard drop',
-            'Up': 'Rotate Clockwise',
-            'X/Control': 'Rotate counter-clockwise',
-            'C/Shift': 'Hold',
-            'P': 'Pause',
-        }
-        var html = '';
-        for (var key in bindings) {
-            html += '<tr><td>'+key+'</td><td>'+bindings[key]+'</td></tr>';
-            document.getElementById('controls-table').innerHTML = html;
-            console.log('welp');
-        }
-    </script>
 </body>
 </html>

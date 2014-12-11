@@ -1,20 +1,18 @@
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class HomePanel extends JPanel {
 
-    private AppController app;
+    private final AppController app;
     private TetrisUIButton playButton;
 
     // This is the "home" screen; it contains just a play button
-    public HomePanel(AppController app) {
-        this.app = app;
+    public HomePanel(AppController a) {
+        this.app = a;
 
         playButton = new TetrisUIButton("Play");
         playButton.addActionListener(new ActionListener() {

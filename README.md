@@ -1,7 +1,7 @@
 # Tetris Sprint
 ## Main Classes
 - `Game`
-  - This is the main class from which the Game is launch. Here we instantiate
+  - This is the main class from which the Game is launched. Here we instantiate
   a new `AppController`, which controls the entire application.
 - `AppController`
   - This is the controller for all parts of the game. It contains the
@@ -179,12 +179,13 @@
 - `Sound`
   - This is a utility class with a static method for playing sound clips.
 
-- `GameElementPanel`, `TetrisUIButton`, `TetrisUILabel` `TetrisUIPanel`
-  - These classes extend JPanel, JButton, JLabel, and JPanel, respectively.
-    Their function is to 1) let me avoid writing the same JComponent
-    styling/configuration code every time I make a new component, and 2) so
-    that the application has a unified style that, if I ever wanted to change,
-    I easily could by modifying these classes.
+- `GameElementPanel`, `GameElementLabel`,
+  `TetrisUIPanel`, `TetrisUILabel`, `TetrisUIButton`
+
+    - The function of these classes is to 1) let me avoid writing the same
+      JComponent styling/configuration code every time I make a new component,
+      and 2) so that the application has a unified style that, if I ever wanted
+      to change, I easily could by modifying these classes.
 
 - `ColorPalettes`
   - This is just a utility class that contains static methods for getting a

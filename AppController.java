@@ -48,7 +48,7 @@ public class AppController {
         cardsPanel.setLayout(cardsLayout);
 
         home = new HomePanel(this);
-        help = new HelpWindow(this);
+        help = new HelpWindow();
         statsView = new GameStatisticsView(this);
 
         gameView  = new TetrisView(this);

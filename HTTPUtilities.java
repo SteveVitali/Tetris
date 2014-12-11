@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +24,7 @@ public class HTTPUtilities {
     // This is a helper function for doing asynchronous JSON GET requests
     @SuppressWarnings("resource")
     public static void jsonArrayAsyncGetRequest(String url, JsonHandler handler) {
+        final JsonHandler handlerFinal = handler; // To fix compilation issue on linux
         disableLogging();
         (new AsyncHttpClient())
         .prepareGet(url)
@@ -39,7 +39,7 @@ public class HTTPUtilities {
                 String jsonString = readResponseContent(response.getResponseBodyAsStream());
                 JsonParser parser = new JsonParser();
                 JsonArray json = (JsonArray) parser.parse(jsonString);
-                handler.handleJsonArray(json);
+                handlerFinal.handleJsonArray(json);
                 return response;
             }
 
